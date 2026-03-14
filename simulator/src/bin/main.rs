@@ -1,3 +1,8 @@
+use colored::Colorize;
+
 fn main() {
-    println!("Hello, world!");
+	let i = 1i8;
+	println!("{}", !i + 1);
+
+	println!("{}", "Hello, world!".on_blue());
 }
