@@ -417,6 +417,4 @@ impl<T: Sized> ColorizeWrapper for T {
 	fn on_bright_white(&self) -> BgColorDisplay<'_, colors::BrightWhite, Self> {
 		OwoColorize::on_bright_white(&self)
 	}
-
-	// ... 前述の共通メソッド ...
 }
