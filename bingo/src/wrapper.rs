@@ -23,68 +23,51 @@ pub trait ColorizeWrapper: Sized {
 	#[must_use]
 	fn on_color<Color: DynColor>(&self, color: Color) -> BgDynColorDisplay<'_, Color, Self>;
 
-	/// Set the foreground color to a specific RGB value.
 	#[must_use]
 	fn fg_rgb<const R: u8, const G: u8, const B: u8>(
 		&self,
 	) -> FgColorDisplay<'_, CustomColor<R, G, B>, Self>;
 
-	/// Set the background color to a specific RGB value.
 	#[must_use]
 	fn bg_rgb<const R: u8, const G: u8, const B: u8>(
 		&self,
 	) -> BgColorDisplay<'_, CustomColor<R, G, B>, Self>;
 
-	/// Sets the foreground color to an RGB value.
 	fn truecolor(&self, r: u8, g: u8, b: u8) -> FgDynColorDisplay<'_, Rgb, Self>;
 
-	/// Sets the background color to an RGB value.
 	#[must_use]
 	fn on_truecolor(&self, r: u8, g: u8, b: u8) -> BgDynColorDisplay<'_, Rgb, Self>;
 
-	/// Apply a runtime-determined style
 	#[must_use]
 	fn style(&self, style: Style) -> Styled<&Self>;
 
-	/// Make the text bold
 	#[must_use]
 	fn bold(&self) -> BoldDisplay<'_, Self>;
 
-	/// Make the text dim
 	#[must_use]
 	fn dimmed(&self) -> DimDisplay<'_, Self>;
 
-	/// Make the text italicized
 	#[must_use]
 	fn italic(&self) -> ItalicDisplay<'_, Self>;
 
-	/// Make the text underlined
 	#[must_use]
 	fn underline(&self) -> UnderlineDisplay<'_, Self>;
 
-	/// Make the text blink
 	#[must_use]
 	fn blink(&self) -> BlinkDisplay<'_, Self>;
 
-	/// Make the text blink (but fast!)
 	#[must_use]
 	fn blink_fast(&self) -> BlinkFastDisplay<'_, Self>;
 
-	/// Swap the foreground and background colors
 	#[must_use]
 	fn reversed(&self) -> ReversedDisplay<'_, Self>;
 
-	/// Hide the text
 	#[must_use]
 	fn hidden(&self) -> HiddenDisplay<'_, Self>;
 
-	/// Cross out the text
 	#[must_use]
 	fn strikethrough(&self) -> StrikeThroughDisplay<'_, Self>;
 
-	// ... 前述の共通メソッド ...
-
-	// --- Standard Colors ---
 	#[must_use]
 	fn black(&self) -> FgColorDisplay<'_, colors::Black, Self>;
 	#[must_use]
