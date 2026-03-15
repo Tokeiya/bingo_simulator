@@ -1,4 +1,5 @@
-use super::error::Result;
+use super::error::{Error, Result};
+use rand::prelude::IndexedRandom;
 use rand::rand_core::Rng;
 use std::fmt::{Display, Formatter};
 
@@ -21,30 +22,104 @@ impl Card {
 		let mut arr: [i8; 25] = [0; 25];
 
 		for i in 0..5 {
-			let candidate = ARRAY[i].sample(rnd, 5);
+			let candidate = SOURCE[i].sample(rnd, 5);
 
 			for (j, v) in candidate.enumerate() {
 				arr[i * 5 + j] = *v;
 			}
 		}
 
+		arr[12] = 0;
+
 		Self(arr)
 	}
 
-	pub fn up(row: usize, col: usize) -> Result<()> {
-		todo!()
+	fn conv(row: usize, col: usize) -> Result<usize> {
+		if row >= 5 {
+			Err(Error::RowOutOfRange(row))
+		} else if col >= 5 {
+			Err(Error::ColumnOutOfRange(col))
+		} else {
+			Ok(row + col * 5)
+		}
 	}
 
-	pub fn set(&mut self, row: usize, col: usize) -> Result<i8> {
-		todo!()
+	pub fn up(&mut self, row: usize, col: usize) -> Result<i8> {
+		let idx = Self::conv(row, col)?;
+		if self.0[idx] <= 0 {
+			Err(Error::AlreadyUpped(row, col))
+		} else {
+			self.0[idx] = -self.0[idx];
+			Ok(self.0[idx].abs())
+		}
 	}
 
 	pub fn get(&self, row: usize, col: usize) -> Result<(i8, bool)> {
-		todo!()
+		let idx = Self::conv(row, col)?;
+		Ok((self.0[idx].abs(), self.0[idx] <= 0))
 	}
 
 	pub fn check(&self) -> bool {
-		todo!()
+		let mut flg = true;
+
+		for piv in (0..5).map(|x| x * 5) {
+			for idx in piv..piv + 5 {
+				if self.0[idx] > 0 {
+					flg = false;
+					break;
+				}
+			}
+
+			if flg {
+				return true;
+			} else {
+				flg = true;
+			}
+		}
+
+		flg = true;
+
+		for piv in 0..5 {
+			for idx in (0..5).map(|i| piv + i * 5) {
+				if self.0[idx] > 0 {
+					flg = false;
+					break;
+				}
+			}
+
+			if flg {
+				return true;
+			} else {
+				flg = true;
+			}
+		}
+
+		flg = true;
+
+		for idx in (0..5).map(|i| i * 6) {
+			if self.0[idx] > 0 {
+				flg = false;
+				break;
+			}
+		}
+
+		if flg {
+			return true;
+		} else {
+			flg = true;
+		}
+
+		let mut idx = 4usize;
+		dbg!(idx);
+		for _ in 0..5 {
+			if self.0[idx] > 0 {
+				return false;
+			}
+
+			idx += 4;
+		}
+
+		return true;
 	}
 
 	pub fn simple_view(&self) -> SimpleView<'_> {
@@ -67,9 +142,9 @@ impl Display for SimpleView<'_> {
 #[cfg(test)]
 mod tests {
 	use super::*;
-	use rand::prelude::IteratorRandom;
 	use rand::TryRng;
 	use std::convert::Infallible;
+	
 	pub struct Dummy;
 
 	impl TryRng for Dummy {
@@ -95,7 +170,60 @@ mod tests {
 	#[test]
 	fn new() {
 		let fixture = Card::new(&mut Dummy);
-		todo!()
+		assert_eq!(
+			fixture.0,
+			[
+				12, 13, 14, 15, 1, 27, 28, 29, 30, 16, 42, 43, 0, 45, 31, 57, 58, 59, 60, 46, 72,
+				73, 74, 75, 61
+			]
+		);
+
+		let mut rnd = rand::rng();
+
+		for _ in 0..100 {
+			let fixture = Card::new(&mut rnd);
+
+			assert!(fixture.0.iter().take(5).all(|x| x <= &15 && x > &0));
+			assert!(
+				fixture
+					.0
+					.iter()
+					.skip(5)
+					.take(5)
+					.all(|x| x <= &30 && x > &15)
+			);
+
+			assert!(
+				fixture
+					.0
+					.iter()
+					.skip(10)
+					.take(2)
+					.all(|x| x <= &45 && x > &30)
+			);
+
+			assert_eq!(fixture.0[12], 0);
+
+			assert!(
+				fixture
+					.0
+					.iter()
+					.skip(13)
+					.take(2)
+					.all(|x| x <= &45 && x > &30)
+			);
+
+			assert!(
+				fixture
+					.0
+					.iter()
+					.skip(15)
+					.take(5)
+					.all(|x| x <= &60 && x > &45)
+			);
+
+			assert!(fixture.0.iter().skip(20).all(|x| x <= &75 && x > &60));
+		}
 	}
 
 	#[test]
@@ -104,13 +232,14 @@ mod tests {
 
 		for c in 0..5 {
 			for r in 0..5 {
+				println!("Setting card at ({}, {})", r, c);
 				if r == 2 && c == 2 {
 					assert_eq!(fixture.0[convert(r, c)], 0);
 					continue;
 				}
 
 				assert!(fixture.0[convert(r, c)] > 0);
-				let act = fixture.set(r, c).unwrap();
+				let act = fixture.up(r, c).unwrap();
 				assert_eq!(act, fixture.0[convert(r, c)].abs());
 				assert!(fixture.0[convert(r, c)] < 0);
 			}
@@ -121,7 +250,7 @@ mod tests {
 		for c in 0..5 {
 			for r in 0..5 {
 				assert!(fixture.0[convert(r, c)] <= 0);
-				assert!(fixture.set(r, c).is_err());
+				assert!(fixture.up(r, c).is_err());
 			}
 		}
 	}
@@ -138,9 +267,12 @@ mod tests {
 					assert!(
 						matches!(fixture.get(r,c),Ok((i,b)) if (i,b)==(fixture.0[convert(r,c)],false))
 					);
-					fixture.set(r, c).unwrap();
+					fixture.up(r, c).unwrap();
+
+					dbg!(r);
+					dbg!(c);
 					assert!(
-						matches!(fixture.get(r,c),Ok((i,b)) if (i,b)==(fixture.0[convert(r,c)],true))
+						matches!(fixture.get(r,c),Ok((i,b)) if (i,b)==(fixture.0[convert(r,c)].abs(),true))
 					);
 				}
 			}
@@ -148,13 +280,63 @@ mod tests {
 	}
 
 	#[test]
-	fn foo() {
-		let vec = (1..=15).collect::<Vec<i8>>();
-		let mut rng = Dummy;
-		let a = vec.iter().sample(&mut rng, 5);
+	fn check() {
+		fn reset(scr: &mut [i8]) {
+			for i in scr.iter_mut() {
+				*i = i.abs();
+			}
 
-		for i in a.into_iter() {
-			println!("{}", i);
+			scr[12] = 0;
 		}
+
+		let mut fixture = Card::new(&mut Dummy);
+
+		reset(&mut fixture.0);
+		fixture.0[4] *= -1;
+		fixture.0[9] *= -1;
+		let a = fixture.check();
+		dbg!(a);
+
+		assert!(!fixture.check());
+
+		for offset in (0..5).map(|i| i * 5) {
+			reset(&mut fixture.0);
+			for i in (offset..(offset + 5)) {
+				assert!(!fixture.check());
+				fixture.0[i] *= -1;
+			}
+			assert!(fixture.check());
+		}
+
+		for piv in 0..5 {
+			reset(&mut fixture.0);
+			let mut idx = piv;
+
+			for _ in 0..5 {
+				println!("({}):{}", idx, fixture.check());
+				assert!(!fixture.check());
+				fixture.0[idx] *= -1;
+				idx += 5;
+			}
+			assert!(fixture.check());
+			println!("------");
+		}
+
+		reset(&mut fixture.0);
+
+		for i in [0, 6, 12, 18, 24] {
+			assert!(!fixture.check());
+			fixture.0[i] *= -1;
+		}
+		assert!(fixture.check());
+
+		reset(&mut fixture.0);
+
+		for i in [4, 8, 12, 16, 20] {
+			assert!(!fixture.check());
+			fixture.0[i] *= -1;
+		}
+
+		assert!(fixture.check());
 	}
 }
