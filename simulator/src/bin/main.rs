@@ -1,8 +1,9 @@
-use colored::Colorize;
+use owo_colors::colors::*;
+use simulator::wrapper::ColorizeWrapper;
 
 fn main() {
-	let i = 1i8;
-	println!("{}", !i + 1);
+	let a = 10;
+	let a = a.bg::<White>();
 
-	println!("{}", "Hello, world!".on_blue());
+	println!("{}{}", a, 20.fg::<White>())
 }
