@@ -8,4 +8,6 @@ pub enum Error {
 	ColumnOutOfRange(usize),
 	#[error("Cell (R:{0},C:{1}) already upped")]
 	AlreadyUpped(usize, usize),
+	#[error("Invalid cell value")]
+	InvalidCellValue(u8),
 }

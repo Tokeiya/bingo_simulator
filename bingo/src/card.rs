@@ -53,6 +53,10 @@ impl Card {
 		}
 	}
 
+	pub fn set(&mut self, num: u8) -> Result<bool> {
+		todo!()
+	}
+
 	pub fn get(&self, row: usize, col: usize) -> Result<(i8, bool)> {
 		let idx = Self::conv(row, col)?;
 		Ok((self.0[idx].abs(), self.0[idx] <= 0))
@@ -243,7 +247,7 @@ mod tests {
 	}
 
 	#[test]
-	fn set() {
+	fn up() {
 		let mut fixture = Card::new(&mut Dummy);
 
 		for c in 0..5 {
@@ -354,6 +358,13 @@ mod tests {
 		}
 
 		assert!(fixture.check());
+	}
+
+	#[test]
+	fn set() {
+		let mut fixture = Card::new(&mut Dummy);
+
+		fixture.set(12).unwrap();
 	}
 
 	#[test]
