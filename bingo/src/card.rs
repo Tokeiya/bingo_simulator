@@ -1,13 +1,12 @@
 use super::error::{Error, Result};
+use super::wrapper::ColorizeWrapper;
 use rand::prelude::IndexedRandom;
 use rand::rand_core::Rng;
-use std::fmt::{Display, Formatter};
+use std::borrow::Cow;
+use std::fmt::Display;
 
 #[derive(Debug)]
 pub struct Card([i8; 25]);
-
-#[derive(Debug)]
-pub struct SimpleView<'a>(&'a Card);
 
 const SOURCE: [[i8; 15]; 5] = [
 	[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
@@ -121,21 +120,38 @@ impl Card {
 
 		return true;
 	}
-
-	pub fn simple_view(&self) -> SimpleView<'_> {
-		todo!()
-	}
 }
 
 impl Display for Card {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-		todo!()
-	}
-}
+		fn conv(scr: &str) -> Cow<'_, str> {
+			if scr.len() == 1 {
+				let mut s = String::new();
+				s.push('0');
+				s.push_str(scr);
+				return Cow::Owned(s);
+			} else {
+				return Cow::Borrowed(scr);
+			}
+		}
 
-impl Display for SimpleView<'_> {
-	fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-		todo!()
+		writeln!(f, "{}", "B  I  N  G  O".bold())?;
+
+		for r in 0..5 {
+			for c in 0..5 {
+				let (i, b) = self.get(r, c).unwrap();
+
+				if b {
+					write!(f, "{} ", conv(&i.to_string()).on_green().black().bold())?
+				} else {
+					write!(f, "{} ", conv(&i.to_string()).on_yellow().black().bold())?
+				}
+			}
+
+			writeln!(f)?
+		}
+
+		Ok(())
 	}
 }
 
@@ -338,5 +354,12 @@ mod tests {
 		}
 
 		assert!(fixture.check());
+	}
+
+	#[test]
+	fn foo() {
+		let fixture = Card::new(&mut Dummy);
+
+		println!("{fixture}")
 	}
 }
