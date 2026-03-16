@@ -1,4 +1,5 @@
 use super::error::{Error, Result};
+use super::row_col;
 use super::wrapper::ColorizeWrapper;
 use rand::prelude::IndexedRandom;
 use rand::rand_core::Rng;
@@ -33,22 +34,8 @@ impl Card {
 		Self(arr)
 	}
 
-	fn conv(row: usize, col: usize) -> Result<usize> {
-		if row >= 5 {
-			Err(Error::RowOutOfRange(row))
-		} else if col >= 5 {
-			Err(Error::ColumnOutOfRange(col))
-		} else {
-			Ok(row + col * 5)
-		}
-	}
-
-	fn inv_conv(linear: usize) -> Result<(usize, usize)> {
-		todo!()
-	}
-
 	pub fn up(&mut self, row: usize, col: usize) -> Result<i8> {
-		let idx = Self::conv(row, col)?;
+		let idx = row_col::try_to_linear(row, col)?;
 		if self.0[idx] <= 0 {
 			Err(Error::AlreadyUpped(row, col))
 		} else {
@@ -62,7 +49,7 @@ impl Card {
 	}
 
 	pub fn get(&self, row: usize, col: usize) -> Result<(i8, bool)> {
-		let idx = Self::conv(row, col)?;
+		let idx = row_col::try_to_linear(row, col)?;
 		Ok((self.0[idx].abs(), self.0[idx] <= 0))
 	}
 
