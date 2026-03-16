@@ -10,4 +10,6 @@ pub enum Error {
 	AlreadyUpped(usize, usize),
 	#[error("Invalid cell value")]
 	InvalidCellValue(u8),
+	#[error("Linear index {0} out of range")]
+	LinearOutOfRange(usize),
 }

@@ -43,6 +43,10 @@ impl Card {
 		}
 	}
 
+	fn inv_conv(linear: usize) -> Result<(usize, usize)> {
+		todo!()
+	}
+
 	pub fn up(&mut self, row: usize, col: usize) -> Result<i8> {
 		let idx = Self::conv(row, col)?;
 		if self.0[idx] <= 0 {
@@ -53,7 +57,7 @@ impl Card {
 		}
 	}
 
-	pub fn set(&mut self, num: u8) -> Result<bool> {
+	pub fn set(&mut self, num: u8) -> Result<(u8, u8, Option<u8>)> {
 		todo!()
 	}
 
