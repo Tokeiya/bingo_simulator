@@ -265,7 +265,8 @@ mod tests {
 			}
 		}
 
-		assert!(fixture.get(5, 5).is_err());
+		assert!(matches!(fixture.up(5,0),Err(Error::RowOutOfRange(r)) if r==5));
+		assert!(matches!(fixture.up(0,5),Err(Error::ColumnOutOfRange(c)) if c==5));
 
 		for c in 0..5 {
 			for r in 0..5 {
@@ -279,6 +280,9 @@ mod tests {
 	fn get() {
 		let mut fixture = Card::new(&mut Dummy);
 
+		assert!(matches!(fixture.get(5,0),Err(Error::RowOutOfRange(r)) if r==5));
+		assert!(matches!(fixture.get(0,5),Err(Error::ColumnOutOfRange(c)) if c==5));
+
 		for c in 0..5 {
 			for r in 0..5 {
 				if r == 2 && c == 2 {
@@ -289,8 +293,6 @@ mod tests {
 					);
 					fixture.up(r, c).unwrap();
 
-					dbg!(r);
-					dbg!(c);
 					assert!(
 						matches!(fixture.get(r,c),Ok((i,b)) if (i,b)==(fixture.0[convert(r,c)].abs(),true))
 					);
