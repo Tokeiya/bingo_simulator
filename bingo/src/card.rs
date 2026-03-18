@@ -1,7 +1,7 @@
 use super::error::{Error, Result};
 use super::row_col;
 use super::wrapper::ColorizeWrapper;
-use crate::row_col::RowCol;
+use crate::row_col::{RowCol, COLUMN_SIZE};
 use rand::prelude::IndexedRandom;
 use rand::rand_core::Rng;
 use std::borrow::Cow;
@@ -51,24 +51,83 @@ impl Card {
 		}
 	}
 
-	pub fn set(&mut self, num: u8) -> Result<LineCount> {
+	pub fn set(&mut self, num: u8) -> Result<Option<LineCount>> {
 		if num > 75 {
 			return Err(Error::InvalidCellValue(num));
 		}
 		let idx = (num / 16) as usize;
 
 		let mut i = 0usize;
+		let mut flg = false;
 
 		while i < (idx + 5) {
 			if self.0[i] == num as i8 {
+				self.0[i] *= -1;
+				flg = true;
 				break;
 			}
 			i += 1;
 		}
 
-		let grid = RowCol::try_from_linear(i)?;
+		if flg {
+			let piv = RowCol::try_from_linear(i)?;
+			let cursor = piv.top_edge();
+			let mut row = 0u8;
 
-		todo!()
+			for i in cursor.linear()..cursor.linear() + 5 {
+				if self.0[i] <= 0 {
+					row += 1;
+				}
+			}
+
+			let mut cursor = piv.left_edge().linear();
+			let mut col = 0u8;
+
+			for _ in 0..5 {
+				if self.0[cursor] <= 0 {
+					col += 1;
+				}
+
+				cursor += COLUMN_SIZE;
+			}
+
+			if let Some(cursor) = piv.diag_edge() {
+				let mut idx = cursor.linear();
+				let mut diag = 0u8;
+
+				if idx == 0 {
+					for _ in 0..5 {
+						if self.0[idx] <= 0 {
+							diag += 1;
+						}
+						idx += 6;
+					}
+				} else if idx == 4 {
+					for _ in 0..5 {
+						if self.0[idx] <= 0 {
+							diag += 1;
+						}
+						idx += 4;
+					}
+				} else {
+					unreachable!()
+				}
+				let ret = LineCount {
+					row,
+					col,
+					diag: Some(diag),
+				};
+				Ok(Some(ret))
+			} else {
+				Ok(Some(LineCount {
+					row,
+					col,
+					diag: None,
+				}))
+			}
+		} else {
+			Ok(None)
+		}
 	}
 
 	pub fn get(&self, row: usize, col: usize) -> Result<(i8, bool)> {
@@ -384,14 +443,17 @@ mod tests {
 		];
 
 		let mut fixture = Card(SAMPLE);
-		let act = fixture.set(1).unwrap();
+		let act = fixture.set(1).unwrap().unwrap();
 		assert_eq!(act.row, 1);
 		assert_eq!(act.col, 1);
-		assert_eq!(act.diag.unwrap(), 1);
+		assert_eq!(act.diag.unwrap(), 2);
 
-		let act = fixture.set(2).unwrap();
+		let act = fixture.set(2).unwrap().unwrap();
 		assert_eq!(act.row, 2);
 		assert_eq!(act.col, 1);
-		assert!(act.diag.is_none())
+		assert!(act.diag.is_none());
+
+		let act = fixture.set(25).unwrap();
+		assert!(act.is_none())
 	}
 }
