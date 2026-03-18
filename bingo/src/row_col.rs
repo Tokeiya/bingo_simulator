@@ -59,6 +59,40 @@ impl RowCol {
 	pub fn linear(&self) -> usize {
 		try_to_linear(self.row, self.col).unwrap()
 	}
+
+	pub fn left_edge(&self) -> Self {
+		Self::try_from_coordinate(self.row, 0).unwrap()
+	}
+
+	pub fn top_edge(&self) -> Self {
+		Self::try_from_coordinate(0, self.col).unwrap()
+	}
+
+	pub fn offset(&self, row: i8, col: i8) -> Result<Self> {
+		let r = row + self.row as i8;
+		if r < 0 || r >= ROW_SIZE as i8 {
+			return Err(Error::RowOutOfRange(r as usize));
+		}
+		let c = self.col as i8 + col;
+		if c < 0 || c >= COLUMN_SIZE as i8 {
+			return Err(Error::ColumnOutOfRange(c as usize));
+		}
+		Self::try_from_coordinate(r as usize, c as usize)
+	}
+
+	pub fn diag_edge(&self) -> Option<Self> {
+		if self.linear() == 12 {
+			unreachable!()
+		}
+
+		if (self.row == self.col) {
+			Some(Self::try_from_coordinate(0, 0).unwrap())
+		} else if (self.row + self.col == 4) {
+			Some(Self::try_from_coordinate(0, 4).unwrap())
+		} else {
+			None
+		}
+	}
 }
 
 #[cfg(test)]
@@ -162,5 +196,60 @@ mod tests {
 		}
 
 		assert!(matches!(try_to_coordinate(25),Err(Error::LinearOutOfRange(l)) if l==25));
+	}
+
+	#[test]
+	fn top_edge() {
+		for i in 0..5 {
+			let fixture = RowCol::try_from_coordinate(2, i);
+			let act = fixture.unwrap().top_edge();
+			assert_eq!(act.linear(), i * 5);
+		}
+	}
+
+	#[test]
+	fn left_edge() {
+		for i in 0..5 {
+			let fixture = RowCol::try_from_coordinate(i, 2).unwrap();
+			let act = fixture.left_edge();
+			assert_eq!(act.linear(), i);
+		}
+	}
+
+	#[test]
+	fn diag_edge() {
+		for i in [0, 6, 18, 24] {
+			let fixture = RowCol::try_from_linear(i).unwrap();
+			let act = fixture.diag_edge().unwrap();
+			assert_eq!(act.linear(), 0);
+		}
+
+		let fixture = RowCol::try_from_linear(2).unwrap();
+		assert!(fixture.diag_edge().is_none());
+
+		for i in [4, 8, 16, 20] {
+			let fixture = RowCol::try_from_linear(i).unwrap();
+			let act = fixture.diag_edge().unwrap();
+			assert_eq!(act.linear(), 20);
+		}
+
+		let fixture = RowCol::try_from_linear(3).unwrap();
+		assert!(fixture.diag_edge().is_none());
+	}
+
+	#[should_panic]
+	#[test]
+	fn unreachable_diag_edge() {
+		let fixture = RowCol::try_from_linear(12);
+		_ = fixture.unwrap().diag_edge()
+	}
+
+	#[test]
+	fn offset() {
+		let fixture = RowCol::try_from_linear(12).unwrap();
+		let act = fixture.offset(1, 1).unwrap();
+		assert_eq!(act.linear(), 18);
+
+		assert_eq!(act.offset(-1, -1).unwrap().linear(), 12)
 	}
 }

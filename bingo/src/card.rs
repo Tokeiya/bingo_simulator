@@ -1,6 +1,7 @@
 use super::error::{Error, Result};
 use super::row_col;
 use super::wrapper::ColorizeWrapper;
+use crate::row_col::RowCol;
 use rand::prelude::IndexedRandom;
 use rand::rand_core::Rng;
 use std::borrow::Cow;
@@ -8,6 +9,12 @@ use std::fmt::Display;
 
 #[derive(Debug)]
 pub struct Card([i8; 25]);
+
+pub struct LineCount {
+	pub row: u8,
+	pub col: u8,
+	pub diag: Option<u8>,
+}
 
 const SOURCE: [[i8; 15]; 5] = [
 	[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
@@ -44,7 +51,23 @@ impl Card {
 		}
 	}
 
-	pub fn set(&mut self, num: u8) -> Result<(u8, u8, Option<u8>)> {
+	pub fn set(&mut self, num: u8) -> Result<LineCount> {
+		if num > 75 {
+			return Err(Error::InvalidCellValue(num));
+		}
+		let idx = (num / 16) as usize;
+
+		let mut i = 0usize;
+
+		while i < (idx + 5) {
+			if self.0[i] == num as i8 {
+				break;
+			}
+			i += 1;
+		}
+
+		let grid = RowCol::try_from_linear(i)?;
+
 		todo!()
 	}
 
@@ -361,14 +384,14 @@ mod tests {
 		];
 
 		let mut fixture = Card(SAMPLE);
+		let act = fixture.set(1).unwrap();
+		assert_eq!(act.row, 1);
+		assert_eq!(act.col, 1);
+		assert_eq!(act.diag.unwrap(), 1);
 
-		fixture.set(12).unwrap();
-	}
-
-	#[test]
-	fn foo() {
-		let fixture = Card::new(&mut Dummy);
-
-		println!("{fixture}")
+		let act = fixture.set(2).unwrap();
+		assert_eq!(act.row, 2);
+		assert_eq!(act.col, 1);
+		assert!(act.diag.is_none())
 	}
 }
