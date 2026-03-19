@@ -8,7 +8,7 @@ use std::borrow::Cow;
 use std::fmt::Display;
 
 #[derive(Debug)]
-pub struct Card([i8; 25]);
+pub struct Card([i8; 25], [u8; 12]);
 
 pub struct LineCount {
 	pub row: u8,
@@ -38,7 +38,7 @@ impl Card {
 
 		arr[12] = 0;
 
-		Self(arr)
+		Self(arr, [0; 12])
 	}
 
 	pub fn up(&mut self, row: usize, col: usize) -> Result<i8> {
@@ -195,7 +195,7 @@ impl Card {
 			idx += 4;
 		}
 
-		return true;
+		true
 	}
 }
 
@@ -206,9 +206,9 @@ impl Display for Card {
 				let mut s = String::new();
 				s.push('0');
 				s.push_str(scr);
-				return Cow::Owned(s);
+				Cow::Owned(s)
 			} else {
-				return Cow::Borrowed(scr);
+				Cow::Borrowed(scr)
 			}
 		}
 
@@ -442,7 +442,7 @@ mod tests {
 			24,
 		];
 
-		let mut fixture = Card(SAMPLE);
+		let mut fixture = Card(SAMPLE, [0u8; _]);
 		let act = fixture.set(1).unwrap().unwrap();
 		assert_eq!(act.row, 1);
 		assert_eq!(act.col, 1);
