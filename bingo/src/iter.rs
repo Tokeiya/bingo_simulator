@@ -114,4 +114,13 @@ mod tests {
 			Err(Error::MainDiagonalCantDefined(x)) if x==0
 		));
 	}
+
+	#[test]
+	fn next() {
+		for piv in (0u8..5).map(|x| x * 5u8 + 2u8) {
+			let mut fixture = Iter::try_new(piv, Direction::Row).unwrap();
+
+			for (cnt, a) in fixture.enumerate() {}
+		}
+	}
 }
