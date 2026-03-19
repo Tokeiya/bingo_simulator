@@ -16,4 +16,6 @@ pub enum Error {
 	MainDiagonalCantDefined(usize),
 	#[error("Linear index {0} Anti diagonal cannot be defined")]
 	AntiDiagonalCantDefined(usize),
+	#[error("Remaining is zero")]
+	RemainingIsZero,
 }
