@@ -12,4 +12,8 @@ pub enum Error {
 	InvalidCellValue(u8),
 	#[error("Linear index {0} out of range")]
 	LinearOutOfRange(usize),
+	#[error("Linear index {0} Main diagonal cannot be defined")]
+	MainDiagonalCantDefined(usize),
+	#[error("Linear index {0} Anti diagonal cannot be defined")]
+	AntiDiagonalCantDefined(usize),
 }
