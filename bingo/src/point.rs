@@ -1,8 +1,4 @@
 use super::error::*;
-use super::iter::Iter;
-
-#[path = "iter.rs"]
-pub mod iter;
 
 pub struct Point(u8);
 
@@ -33,21 +29,5 @@ impl Point {
 
 	pub fn lies_on_anti_diagonal(&self) -> bool {
 		todo!()
-	}
-
-	pub fn row_idx_iter(&self) -> Iter {
-		todo!()
-	}
-
-	pub fn col_idx_iter(&self) -> Iter {
-		todo!()
-	}
-
-	pub fn main_diagonal_idx_iter(&self) -> Result<Iter> {
-		todo!();
-	}
-
-	pub fn anti_diagonal_idx_iter(&self) -> Result<Iter> {
-		todo!();
 	}
 }
