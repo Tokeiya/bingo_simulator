@@ -5,14 +5,12 @@ pub(super) const ROW_IDX: [usize; 5] = [0, 1, 2, 3, 4];
 pub(super) const COL_IDX: [usize; 5] = [5, 6, 7, 8, 9];
 pub(super) const MAIN_DIAGONAL: usize = 10;
 pub(super) const ANTI_DIAGONAL: usize = 11;
-
 pub struct Remaining([u8; 12]);
 
 impl Remaining {
 	pub fn new() -> Self {
 		todo!()
 	}
-
 	pub fn row(&self, idx: usize) -> Result<usize> {
 		todo!()
 	}
@@ -25,11 +23,9 @@ impl Remaining {
 	pub fn anti_diagonal(&self) -> usize {
 		todo!()
 	}
-
-	fn decrement(&mut self, point: &Point) -> Result<usize> {
+	fn decrement(&mut self, point: &Point) -> Result<bool> {
 		todo!()
 	}
-
 	fn view(&self) -> &[u8] {
 		todo!()
 	}
@@ -72,6 +68,8 @@ mod tests {
 
 	#[test]
 	fn decrement() {
-		todo!()
+		let mut fixture = Remaining([5; 12]);
+
+		for i in (0..5).map(|x| x * 5) {}
 	}
 }
