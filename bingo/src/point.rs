@@ -26,7 +26,6 @@ impl Point {
 	pub fn lies_on_main_diagonal(&self) -> bool {
 		todo!()
 	}
-
 	pub fn lies_on_anti_diagonal(&self) -> bool {
 		todo!()
 	}
