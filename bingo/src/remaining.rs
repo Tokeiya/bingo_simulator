@@ -121,6 +121,10 @@ mod tests {
 			fixture.decrement(&point).unwrap()
 		}
 
+		assert!(matches!(
+			fixture.decrement(&Point::try_from_linear(0).unwrap()),
+			Err(Error::RemainingIsZero)
+		));
 		assert_eq!(&fixture.0, &[4, 4, 4, 4, 4, 0, 5, 5, 5, 5, 4, 4]);
 
 		fixture.0 = [5; _];
