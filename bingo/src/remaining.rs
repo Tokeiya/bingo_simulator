@@ -117,20 +117,33 @@ mod tests {
 	#[test]
 	fn decrement() {
 		let mut fixture = Remaining([5; 12]);
-		let p = Point::try_from_linear(0).unwrap();
-
-		assert_eq!(fixture.0[0], 5);
-
-		for i in (0..5).rev() {
-			fixture.decrement(&p).unwrap();
-			assert_eq!(fixture.0[ROW_IDX[0]], i);
+		for point in (0..5).map(|r| Point::try_from_grid(r, 0).unwrap()) {
+			fixture.decrement(&point).unwrap()
 		}
 
-		for (idx, cnt) in fixture.0.iter().enumerate() {
-			println!("[{idx}]={cnt}");
+		assert_eq!(&fixture.0, &[4, 4, 4, 4, 4, 0, 5, 5, 5, 5, 4, 4]);
+
+		fixture.0 = [5; _];
+
+		for point in (0..5).map(|c| Point::try_from_grid(0, c).unwrap()) {
+			fixture.decrement(&point).unwrap()
+		}
+		assert_eq!(&fixture.0, &[0, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4, 4]);
+
+		fixture.0 = [5; _];
+
+		for point in (0..5).map(|i| Point::try_from_linear(i * 6).unwrap()) {
+			fixture.decrement(&point).unwrap()
+		}
+		assert_eq!(&fixture.0, &[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 3]);
+
+		fixture.0 = [5; _];
+
+		for point in (1..=5).map(|i| Point::try_from_linear(i * 4).unwrap()) {
+			fixture.decrement(&point).unwrap()
 		}
 
-		assert!(matches!(fixture.decrement(&p), Err(Error::RemainingIsZero)));
+		assert_eq!(&fixture.0, &[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0]);
 	}
 
 	#[test]
