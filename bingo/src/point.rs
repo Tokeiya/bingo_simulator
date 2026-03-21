@@ -25,3 +25,11 @@ impl Point {
 		todo!()
 	}
 }
+
+#[cfg(test)]
+mod tests {
+	#[test]
+	fn try_from_linear() {
+		todo!()
+	}
+}

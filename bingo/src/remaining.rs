@@ -131,6 +131,8 @@ mod tests {
 		}
 
 		assert!(matches!(fixture.decrement(&p), Err(Error::RemainingIsZero)));
+
+		todo!()
 	}
 
 	#[test]
