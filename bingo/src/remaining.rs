@@ -23,7 +23,7 @@ impl Remaining {
 	pub fn anti_diagonal(&self) -> usize {
 		todo!()
 	}
-	fn decrement(&mut self, point: &Point) -> Result<bool> {
+	fn decrement(&mut self, point: &Point) -> Result<()> {
 		todo!()
 	}
 	fn view(&self) -> &[u8] {
@@ -69,7 +69,22 @@ mod tests {
 	#[test]
 	fn decrement() {
 		let mut fixture = Remaining([5; 12]);
+		let p = Point::try_from_linear(0).unwrap();
 
-		for i in (0..5).map(|x| x * 5) {}
+		assert_eq!(fixture.0[0], 5);
+
+		for i in (0..5).rev() {
+			fixture.decrement(&p).unwrap();
+			assert_eq!(fixture.0[0], i);
+		}
+
+		assert!(matches!(fixture.decrement(&p), Err(Error::RemainingIsZero)));
+	}
+
+	#[test]
+	fn view() {
+		let mut fixture = Remaining(std::array::from_fn(|x| x as u8));
+
+		assert_eq!(&fixture.0, fixture.view());
 	}
 }
