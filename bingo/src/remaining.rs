@@ -33,7 +33,7 @@ impl Remaining {
 	}
 	fn decrement(&mut self, point: &Point) -> Result<()> {
 		let row = ROW_IDX[point.row() as usize];
-		let col = COL_IDX[point.col() as usize];
+		let col = COL_IDX[point.column() as usize];
 		let lies_main = point.lies_on_main_diagonal();
 		let lies_anti = point.lies_on_anti_diagonal();
 
