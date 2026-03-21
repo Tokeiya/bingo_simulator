@@ -5,6 +5,8 @@ pub(super) const ROW_IDX: [usize; 5] = [0, 1, 2, 3, 4];
 pub(super) const COL_IDX: [usize; 5] = [5, 6, 7, 8, 9];
 pub(super) const MAIN_DIAGONAL: usize = 10;
 pub(super) const ANTI_DIAGONAL: usize = 11;
+
+#[derive(Debug)]
 pub struct Remaining([u8; 12]);
 
 impl Remaining {
@@ -58,7 +60,7 @@ impl Remaining {
 			Ok(())
 		}
 	}
-	fn view(&self) -> &[u8] {
+	pub fn view(&self) -> &[u8] {
 		&self.0
 	}
 }
