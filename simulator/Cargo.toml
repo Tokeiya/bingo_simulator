@@ -6,3 +6,6 @@ edition = "2024"
 [dependencies]
 bingo = { path = "../bingo" }
 owo-colors = "*"
+rand = "*"
+rand_chacha = "*"
+rand_core = "*"

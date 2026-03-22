@@ -1,7 +1,6 @@
 use super::error::*;
 
 pub const EDGE_SIZE: u8 = 5;
-pub const LINEAR_SIZE: u8 = EDGE_SIZE * EDGE_SIZE;
 
 pub struct Point(u8);
 
@@ -35,7 +34,11 @@ impl Point {
 		self.0 % 6 == 0
 	}
 	pub fn lies_on_anti_diagonal(&self) -> bool {
-		if self.0 == 0 { false } else { self.0 % 4 == 0 }
+		if self.0 == 0 || self.0 == 24 {
+			false
+		} else {
+			self.0 % 4 == 0
+		}
 	}
 }
 

@@ -27,8 +27,6 @@ impl Card {
 	pub fn new(rnd: &mut impl Rng, center_free: bool) -> Self {
 		let mut arr = [0i8; LINEAR_SIZE];
 
-		let a = BINGO_VALUE[0].sample(rnd, EDGE_SIZE);
-
 		let mut idx: usize = 0;
 
 		for r in 0..EDGE_SIZE {
@@ -38,26 +36,31 @@ impl Card {
 			}
 		}
 
+		let mut remaining = Remaining::new();
+
 		if center_free {
 			arr[12] = 0;
+			remaining
+				.decrement(&Point::try_from_linear(12).unwrap())
+				.unwrap();
 		}
 
 		Self {
 			storage: arr,
-			remaining: Remaining::new(),
+			remaining,
 		}
 	}
 
 	pub fn set(&mut self, value: u8) -> Result<Option<Point>> {
 		let rng = if value > 0 && value <= 15 {
 			0..5
-		} else if value > 16 && value <= 30 {
+		} else if value > 15 && value <= 30 {
 			5..10
-		} else if value > 31 && value <= 45 {
+		} else if value > 30 && value <= 45 {
 			10..15
-		} else if value > 46 && value <= 60 {
+		} else if value > 45 && value <= 60 {
 			15..20
-		} else if value > 61 && value <= 75 {
+		} else if value > 60 && value <= 75 {
 			20..25
 		} else {
 			return Err(Error::InvalidCellValue(value));
@@ -150,7 +153,10 @@ mod test {
 				73, 74, 75, 61
 			]
 		);
-		assert_eq!(fixture.remaining.view(), &[5u8; 12]);
+		assert_eq!(
+			fixture.remaining.view(),
+			&[5, 5, 4, 5, 5, 5, 5, 4, 5, 5, 4, 4]
+		);
 
 		let fixture = Card::new(&mut MockRnd, false);
 		assert_eq!(
@@ -231,5 +237,29 @@ mod test {
 		dbg!(fixture.remaining.view());
 
 		println!("{}", fixture);
+	}
+
+	#[test]
+	fn foo() {
+		let mut remaining = Remaining::new();
+		remaining.decrement(&Point::try_from_linear(12).unwrap());
+		let mut fixture = Card {
+			storage: [
+				11, 6, 1, 13, 3, 30, 21, 16, 19, 28, 43, 35, 0, 39, 45, 57, 58, 47, 60, 59, 61, 62,
+				64, 71, 70,
+			],
+			remaining,
+		};
+
+		fixture.set(3).unwrap();
+		fixture.set(19).unwrap();
+		fixture.set(58).unwrap();
+		fixture.set(71).unwrap();
+		fixture.set(70).unwrap();
+
+		assert_eq!(
+			fixture.remaining.view(),
+			&[5, 4, 4, 3, 3, 4, 4, 4, 4, 3, 3, 1]
+		);
 	}
 }
