@@ -5,6 +5,8 @@ pub(super) const ROW_IDX: [usize; 5] = [0, 1, 2, 3, 4];
 pub(super) const COL_IDX: [usize; 5] = [5, 6, 7, 8, 9];
 pub(super) const MAIN_DIAGONAL: usize = 10;
 pub(super) const ANTI_DIAGONAL: usize = 11;
+
+#[derive(Debug)]
 pub struct Remaining([u8; 12]);
 
 impl Remaining {
@@ -33,7 +35,7 @@ impl Remaining {
 	}
 	fn decrement(&mut self, point: &Point) -> Result<()> {
 		let row = ROW_IDX[point.row() as usize];
-		let col = COL_IDX[point.col() as usize];
+		let col = COL_IDX[point.column() as usize];
 		let lies_main = point.lies_on_main_diagonal();
 		let lies_anti = point.lies_on_anti_diagonal();
 
@@ -58,7 +60,7 @@ impl Remaining {
 			Ok(())
 		}
 	}
-	fn view(&self) -> &[u8] {
+	pub fn view(&self) -> &[u8] {
 		&self.0
 	}
 }
@@ -117,22 +119,37 @@ mod tests {
 	#[test]
 	fn decrement() {
 		let mut fixture = Remaining([5; 12]);
-		let p = Point::try_from_linear(0).unwrap();
-
-		assert_eq!(fixture.0[0], 5);
-
-		for i in (0..5).rev() {
-			fixture.decrement(&p).unwrap();
-			assert_eq!(fixture.0[ROW_IDX[0]], i);
+		for point in (0..5).map(|r| Point::try_from_grid(r, 0).unwrap()) {
+			fixture.decrement(&point).unwrap()
 		}
 
-		for (idx, cnt) in fixture.0.iter().enumerate() {
-			println!("[{idx}]={cnt}");
+		assert!(matches!(
+			fixture.decrement(&Point::try_from_linear(0).unwrap()),
+			Err(Error::RemainingIsZero)
+		));
+		assert_eq!(&fixture.0, &[4, 4, 4, 4, 4, 0, 5, 5, 5, 5, 4, 4]);
+
+		fixture.0 = [5; _];
+
+		for point in (0..5).map(|c| Point::try_from_grid(0, c).unwrap()) {
+			fixture.decrement(&point).unwrap()
+		}
+		assert_eq!(&fixture.0, &[0, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4, 4]);
+
+		fixture.0 = [5; _];
+
+		for point in (0..5).map(|i| Point::try_from_linear(i * 6).unwrap()) {
+			fixture.decrement(&point).unwrap()
+		}
+		assert_eq!(&fixture.0, &[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 3]);
+
+		fixture.0 = [5; _];
+
+		for point in (1..=5).map(|i| Point::try_from_linear(i * 4).unwrap()) {
+			fixture.decrement(&point).unwrap()
 		}
 
-		assert!(matches!(fixture.decrement(&p), Err(Error::RemainingIsZero)));
-
-		todo!()
+		assert_eq!(&fixture.0, &[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0]);
 	}
 
 	#[test]
