@@ -138,7 +138,7 @@ mod test {
 			Ok(42)
 		}
 
-		fn try_fill_bytes(&mut self, dst: &mut [u8]) -> std::result::Result<(), Self::Error> {
+		fn try_fill_bytes(&mut self, _dst: &mut [u8]) -> std::result::Result<(), Self::Error> {
 			unreachable!()
 		}
 	}
@@ -213,7 +213,7 @@ mod test {
 
 	#[test]
 	fn remaining() {
-		let mut fixture = Card {
+		let fixture = Card {
 			storage: std::array::from_fn::<i8, 25, _>(|i| (i + 1) as i8),
 			remaining: Remaining::new(),
 		};
@@ -242,7 +242,7 @@ mod test {
 	#[test]
 	fn foo() {
 		let mut remaining = Remaining::new();
-		remaining.decrement(&Point::try_from_linear(12).unwrap());
+		let _ = remaining.decrement(&Point::try_from_linear(12).unwrap());
 		let mut fixture = Card {
 			storage: [
 				11, 6, 1, 13, 3, 30, 21, 16, 19, 28, 43, 35, 0, 39, 45, 57, 58, 47, 60, 59, 61, 62,

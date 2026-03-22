@@ -15,32 +15,7 @@ fn main() {
 		println!("round:{i} cnt:{c} tie:{b}");
 	}
 
-	println!("avg:{:.2}", accum / 100f64);
-}
-
-fn roll(rnd: &mut impl rand_core::Rng) -> usize {
-	let mut arr: [u8; 75] = std::array::from_fn(|i| (i + 1) as u8);
-	arr.shuffle(rnd);
-
-	let mut card = Card::new(rnd, true);
-	let mut cnt = 0;
-
-	for ball in arr.into_iter() {
-		cnt += 1;
-
-		card.set(ball).unwrap();
-
-		if card.remaining().view().contains(&0) {
-			break;
-		}
-	}
-
-	if cnt < 7 || cnt > 73 {
-		println!("CNT:{cnt}");
-		println!("{}\n\n", &card);
-	}
-
-	cnt
+	println!("avg:{:.2}", accum / 20f64);
 }
 
 fn hall(rnd: &mut impl rand_core::Rng, num: usize) -> (usize, usize) {

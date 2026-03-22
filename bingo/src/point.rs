@@ -45,8 +45,6 @@ impl Point {
 #[cfg(test)]
 mod test {
 	use super::*;
-	use crate::error::*;
-	
 	fn to_linear(row: u8, col: u8) -> u8 {
 		col * 5 + row
 	}
@@ -118,7 +116,7 @@ mod test {
 
 			assert_eq!(
 				fix.lies_on_anti_diagonal(),
-				if idx == 0 { false } else { idx % 4 == 0 }
+				if idx == 0 || idx == 24 { false } else { idx % 4 == 0 }
 			);
 		}
 	}

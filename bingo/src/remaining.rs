@@ -68,8 +68,7 @@ impl Remaining {
 #[cfg(test)]
 mod tests {
 	use super::*;
-	use crate::error::*;
-	
+
 	#[test]
 	fn new() {
 		let fixture = Remaining::new();
@@ -111,7 +110,7 @@ mod tests {
 
 	#[test]
 	fn main_diagonal() {
-		let mut fixture = Remaining([1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 5, 4]);
+		let fixture = Remaining([1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 5, 4]);
 
 		assert_eq!(fixture.main_diagonal(), 5);
 	}
@@ -141,7 +140,7 @@ mod tests {
 		for point in (0..5).map(|i| Point::try_from_linear(i * 6).unwrap()) {
 			fixture.decrement(&point).unwrap()
 		}
-		assert_eq!(&fixture.0, &[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 3]);
+		assert_eq!(&fixture.0, &[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 4]);
 
 		fixture.0 = [5; _];
 
