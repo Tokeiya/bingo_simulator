@@ -113,13 +113,10 @@ mod test {
 
 	#[test]
 	fn lies_on_anti_diagonal() {
-		for (idx, fix) in (0..25).map(|x| Point(x)).enumerate() {
-			println!("{}", idx);
+		const EXPECTED: [usize; 5] = [4, 8, 12, 16, 20];
 
-			assert_eq!(
-				fix.lies_on_anti_diagonal(),
-				if idx == 0 { false } else { idx % 4 == 0 }
-			);
+		for (idx, fix) in (0..25).map(|x| Point(x)).enumerate() {
+			assert_eq!(fix.lies_on_anti_diagonal(), EXPECTED.contains(&idx));
 		}
 	}
 }

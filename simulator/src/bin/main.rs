@@ -4,6 +4,10 @@ use rand_chacha::ChaCha20Rng;
 use rand_core::SeedableRng;
 
 fn main() {
+	foo();
+}
+
+fn bar() {
 	let mut rnd = ChaCha20Rng::from_seed([42; _]);
 	let mut accum = 0f64;
 
@@ -16,6 +20,24 @@ fn main() {
 	}
 
 	println!("avg:{:.2}", accum / 100f64);
+}
+fn foo() {
+	let mut rnd = ChaCha20Rng::from_seed([42; _]);
+	let mut accum: [usize; 75] = [0; _];
+
+	for _ in 0..10000 {
+		accum[roll(&mut rnd)] += 1;
+	}
+
+	let mut ans = 0f64;
+	for idx in 0..75 {
+		ans += (accum[idx] as f64) * (idx as f64);
+	}
+
+	dbg!(ans);
+
+	dbg!(accum);
+	dbg!(ans as f64 / 1000.0);
 }
 
 fn roll(rnd: &mut impl rand_core::Rng) -> usize {
