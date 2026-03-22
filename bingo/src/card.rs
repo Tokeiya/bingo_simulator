@@ -46,14 +46,29 @@ impl Card {
 		}
 	}
 
-	pub fn set(&mut self, value: u8) -> Result<bool> {
-		if value > 75 {
-			Err(Error::InvalidCellValue(value))
+	pub fn set(&mut self, value: u8) -> Result<Option<Point>> {
+		let rng = if value > 0 && value <= 15 {
+			0..5
+		} else if value > 16 && value <= 30 {
+			5..10
+		} else if value > 31 && value <= 45 {
+			10..15
+		} else if value > 46 && value <= 60 {
+			15..20
+		} else if value > 61 && value <= 75 {
+			20..25
 		} else {
-			if value <= 1 && value >= 75 {}
+			return Err(Error::InvalidCellValue(value));
+		};
 
-			todo!()
+		for i in rng {
+			if self.storage[i] == value as i8 {
+				self.storage[i] *= -1;
+				return Ok(Some(Point::try_from_linear(i as u8).unwrap()));
+			}
 		}
+
+		Ok(None)
 	}
 
 	pub fn get(&self, point: &Point) -> Result<bool> {
@@ -129,13 +144,13 @@ mod test {
 			remaining: Remaining::new(),
 		};
 
-		assert!(!fixture.set(42).unwrap());
+		assert!(fixture.set(42).unwrap().is_none());
 		assert_eq!(fixture.remaining.view(), &[5u8; 12]);
 
 		assert!(matches!(fixture.set(76),Err(Error::InvalidCellValue(x)) if x==76));
 		assert_eq!(fixture.remaining.view(), &[5u8; 12]);
 
-		assert!(fixture.set(13).unwrap());
+		assert!(matches!(fixture.set(13),Ok(Some(x)) if x.linear()==12));
 		assert_eq!(fixture.remaining.view(), &[4u8; 12]);
 	}
 
