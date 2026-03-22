@@ -33,7 +33,7 @@ impl Remaining {
 	pub fn anti_diagonal(&self) -> usize {
 		self.0[ANTI_DIAGONAL] as usize
 	}
-	fn decrement(&mut self, point: &Point) -> Result<()> {
+	pub fn decrement(&mut self, point: &Point) -> Result<()> {
 		let row = ROW_IDX[point.row() as usize];
 		let col = COL_IDX[point.column() as usize];
 		let lies_main = point.lies_on_main_diagonal();

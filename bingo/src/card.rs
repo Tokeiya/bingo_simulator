@@ -1,9 +1,11 @@
 use crate::error::*;
 use crate::point::Point;
 use crate::remaining::Remaining;
+use crate::wrapper::ColorizeWrapper;
 use rand::prelude::IndexedRandom;
 use rand::prelude::Rng;
 use std::fmt::{Display, Formatter};
+
 pub const EDGE_SIZE: usize = 5;
 pub const LINEAR_SIZE: usize = EDGE_SIZE * EDGE_SIZE;
 
@@ -63,8 +65,10 @@ impl Card {
 
 		for i in rng {
 			if self.storage[i] == value as i8 {
+				let p = Point::try_from_linear(i as u8).unwrap();
 				self.storage[i] *= -1;
-				return Ok(Some(Point::try_from_linear(i as u8).unwrap()));
+				self.remaining.decrement(&p).unwrap();
+				return Ok(Some(p));
 			}
 		}
 
@@ -86,7 +90,29 @@ impl Card {
 
 impl Display for Card {
 	fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-		todo!()
+		if self.remaining.view().contains(&0) {
+			writeln!(f, "{}", "B  I  N  G  O".bright_white().on_green())?;
+		} else {
+			writeln!(f, "{}", "B  I  N  G  O".green())?;
+		}
+
+		for r in 0..EDGE_SIZE {
+			for c in 0..EDGE_SIZE {
+				let p = Point::try_from_grid(r as u8, c as u8).unwrap();
+				let val = self.storage[p.linear()];
+
+				if val <= 0 {
+					write!(f, "{:2}", val.abs().on_bright_white().black().bold())?;
+				} else {
+					write!(f, "{:2}", val.abs().on_black().bright_white().bold())?;
+				}
+
+				write!(f, " ")?;
+			}
+
+			writeln!(f)?
+		}
+		Ok(())
 	}
 }
 
@@ -137,12 +163,14 @@ mod test {
 		assert_eq!(fixture.remaining.view(), &[5u8; 12]);
 	}
 
-	#[cfg(test)]
+	#[test]
 	fn set() {
 		let mut fixture = Card {
 			storage: std::array::from_fn::<i8, 25, _>(|i| (i + 1) as i8),
 			remaining: Remaining::new(),
 		};
+
+		fixture.storage[12] = 40;
 
 		assert!(fixture.set(42).unwrap().is_none());
 		assert_eq!(fixture.remaining.view(), &[5u8; 12]);
@@ -150,8 +178,11 @@ mod test {
 		assert!(matches!(fixture.set(76),Err(Error::InvalidCellValue(x)) if x==76));
 		assert_eq!(fixture.remaining.view(), &[5u8; 12]);
 
-		assert!(matches!(fixture.set(13),Ok(Some(x)) if x.linear()==12));
-		assert_eq!(fixture.remaining.view(), &[4u8; 12]);
+		assert!(matches!(fixture.set(40),Ok(Some(x)) if x.linear()==12));
+		assert_eq!(
+			fixture.remaining.view(),
+			&[5, 5, 4, 5, 5, 5, 5, 4, 5, 5, 4, 4]
+		);
 	}
 
 	#[test]
@@ -182,5 +213,23 @@ mod test {
 		};
 
 		assert_eq!(fixture.remaining.view(), &[5u8; 12]);
+	}
+
+	#[test]
+	fn display() {
+		let mut fixture = Card {
+			storage: std::array::from_fn::<i8, 25, _>(|i| (i + 1) as i8),
+			remaining: Remaining::new(),
+		};
+
+		fixture.storage[12] = 0;
+
+		for i in 1..=5 {
+			fixture.set(i).unwrap();
+		}
+
+		dbg!(fixture.remaining.view());
+
+		println!("{}", fixture);
 	}
 }
