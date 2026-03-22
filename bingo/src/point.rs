@@ -120,11 +120,3 @@ mod test {
 		}
 	}
 }
-
-#[cfg(test)]
-mod tests {
-	#[test]
-	fn try_from_linear() {
-		todo!()
-	}
-}
