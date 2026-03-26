@@ -9,3 +9,8 @@ owo-colors = "*"
 rand = "*"
 rand_chacha = "*"
 rand_core = "*"
+dsv_writer = { git = "https://github.com/Tokeiya/dsv_writer.git", branch = "master" }
+rayon = "*"
+crossbeam-channel = "*"
+common_errors = { git = "https://github.com/Tokeiya/common_errors", branch = "master" }
+thiserror = "*"
