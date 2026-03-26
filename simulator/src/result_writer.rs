@@ -36,11 +36,18 @@ impl ResultWriter {
 		Ok(())
 	}
 
+	pub fn post(&self, id: usize, data: [usize; 75]) {
+		let datum = Datum { id, result: data };
+		self.tx.send(Some(datum)).unwrap();
+	}
+
 	pub fn join(&mut self) -> ResultWriterResult<()> {
 		let handle = match self.handle.take() {
 			None => return Err(ResultWriterError::handle_already_closed()),
 			Some(h) => h,
 		};
+
+		self.tx.send(None).unwrap();
 
 		let result = match handle.join() {
 			Ok(v) => v,
@@ -67,7 +74,7 @@ impl ResultWriter {
 				writer.write_value_field(&datum.id, QuoteMode::AutoDetect)?;
 				writer.write_value_field(&idx, QuoteMode::AutoDetect)?;
 				writer.write_value_field(&value, QuoteMode::AutoDetect)?;
-				writer.end_of_record(true)?;
+				writer.end_of_record(false)?;
 			}
 		}
 

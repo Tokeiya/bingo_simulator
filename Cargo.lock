@@ -94,7 +94,7 @@ checksum = "d0a5c400df2834b80a4c3327b3aad3a4c4cd4de0629063962b03235697506a28"
 [[package]]
 name = "dsv_writer"
 version = "0.7.2"
-source = "git+https://github.com/Tokeiya/dsv_writer.git?branch=master#3e4e358b12e2f1fef70dbdc89bfb9bff82b97241"
+source = "git+https://github.com/Tokeiya/dsv_writer.git?branch=master#7de9dacb62aee484365154c058098a2058466537"
 dependencies = [
  "common_errors",
  "futures",
