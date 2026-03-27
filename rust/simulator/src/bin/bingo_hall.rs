@@ -13,7 +13,7 @@ use std::sync::LazyLock;
 use std::sync::atomic::{AtomicU64, AtomicUsize, Ordering};
 
 const N: usize = 50;
-const ROUND: usize = 10000;
+const ROUND: usize = 5;
 
 static STREAM_ID: AtomicU64 = AtomicU64::new(0);
 
@@ -35,7 +35,7 @@ thread_local! {
 }
 
 fn main() {
-	let mut file = std::fs::File::create("output.tsv").unwrap();
+	let mut file = std::fs::File::create("/mnt/wsl/data/sample.tsv").unwrap();
 	_ = file.write(b"id\tcards\tround\tcount").unwrap();
 
 	let mut writer = ResultWriter::new();
