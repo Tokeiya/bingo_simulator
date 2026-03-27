@@ -13,7 +13,7 @@ use std::sync::LazyLock;
 use std::sync::atomic::{AtomicU64, AtomicUsize, Ordering};
 
 const N: usize = 50;
-const ROUND: usize = 10;
+const ROUND: usize = 10000;
 
 static STREAM_ID: AtomicU64 = AtomicU64::new(0);
 
@@ -44,6 +44,7 @@ fn main() {
 	let id_seed = AtomicUsize::new(0);
 
 	for n in (1..=20).map(|i| i * 5) {
+		println!("Processing {} cards", n);
 		(0..ROUND).par_bridge().for_each(|_| {
 			let id = id_seed.fetch_add(1, Ordering::Relaxed);
 
