@@ -7,66 +7,74 @@ use rand_core::Rng;
 use rayon::prelude::*;
 use simulator::result_writer::ResultWriter;
 use simulator::result_writer_error::*;
-use std::sync::atomic::AtomicUsize;
+use std::cell;
+use std::io::Write;
+use std::sync::LazyLock;
+use std::sync::atomic::{AtomicU64, AtomicUsize, Ordering};
 
 const N: usize = 50;
-const ROUND: usize = 100_000;
-static SEED: AtomicUsize = AtomicUsize::new(0);
+const ROUND: usize = 10;
 
-fn main() {
-	let mut seed = [0u8; 32];
-	rand::rng().fill_bytes(&mut seed);
-	let file = std::fs::File::create("/mnt/wsl/data/output.tsv").unwrap();
-	let mut writer = simulator::result_writer::ResultWriter::new();
-	_ = writer.start(file).unwrap();
+static STREAM_ID: AtomicU64 = AtomicU64::new(0);
 
-	let mut rands: Vec<ChaCha20Rng> = (0..20)
-		.map(|x| {
-			let mut rng = ChaCha20Rng::from_seed(seed);
-			rng.set_stream(x);
-			rng
-		})
-		.collect();
+static SEED: LazyLock<[u8; 32]> = LazyLock::new(|| {
+	let mut arr = [0; 32];
+	rand::rng().fill_bytes(&mut arr);
+	arr
+});
 
-	_ = rands.par_iter_mut().for_each(|rng| {});
-
-	// for i in 0..ROUND {
-	// 	println!("Round: {}", i);
-	// 	let ans = round(&mut rng);
-	//
-	// 	for (idx, cnt) in ans.iter().enumerate() {
-	// 		writer.write_value_field(&i, QuoteMode::AutoDetect).unwrap();
-	// 		writer
-	// 			.write_value_field(&idx, QuoteMode::AutoDetect)
-	// 			.unwrap();
-	// 		writer
-	// 			.write_value_field(&cnt, QuoteMode::AutoDetect)
-	// 			.unwrap();
-	// 		writer.end_of_record(false).unwrap();
-	// 	}
-	// }
+fn generate() -> ChaCha20Rng {
+	let mut rng = ChaCha20Rng::from_seed(*SEED);
+	let id = STREAM_ID.fetch_add(1, Ordering::Relaxed);
+	rng.set_stream(id);
+	rng
 }
 
-fn round(rng: &mut ChaCha20Rng) -> [usize; 75] {
-	let mut arr: Vec<_> = (0..N).map(|_| Option::Some(Card::new(rng, true))).collect();
-	let mut accum: [usize; 75] = [0; _];
+thread_local! {
+	static RNG:cell::RefCell<ChaCha20Rng> = cell::RefCell::new(generate());
+}
 
-	let mut vec: Vec<u8> = (1..=75).collect();
-	vec.shuffle(rng);
+fn main() {
+	let mut file = std::fs::File::create("output.tsv").unwrap();
+	_ = file.write(b"id\tcards\tround\tcount").unwrap();
 
-	for (cnt, ball) in vec.into_iter().enumerate() {
-		for card in arr.iter_mut() {
-			if let Some(c) = card {
-				_ = c.set(ball);
-				if c.remaining().view().contains(&0) {
-					accum[cnt] += 1;
-					*card = None;
+	let mut writer = ResultWriter::new();
+	writer.start(file).unwrap();
+
+	let id_seed = AtomicUsize::new(0);
+
+	for n in (1..=20).map(|i| i * 5) {
+		(0..ROUND).par_bridge().for_each(|_| {
+			let id = id_seed.fetch_add(1, Ordering::Relaxed);
+
+			RNG.with(|rng| {
+				let mut cards = (0..n)
+					.map(|_| Some(Card::new(&mut rng.borrow_mut(), true)))
+					.collect::<Vec<_>>();
+
+				let mut balls: [u8; 75] = std::array::from_fn(|i| i as u8);
+				balls.shuffle(&mut rng.borrow_mut());
+
+				let mut accum: [usize; 75] = [0; _];
+
+				for (c, ball) in balls.iter().enumerate() {
+					for card in cards.iter_mut() {
+						if let Some(crd) = card {
+							_ = crd.set(*ball);
+							if crd.remaining().view().contains(&0) {
+								accum[c] += 1;
+								*card = None;
+							}
+						} else {
+							continue;
+						}
+					}
 				}
-			} else {
-				continue;
-			}
-		}
+
+				writer.post(id, n, accum);
+			})
+		})
 	}
 
-	accum
+	writer.join().unwrap();
 }

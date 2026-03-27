@@ -6,6 +6,7 @@ use std::fs;
 use std::thread::JoinHandle;
 pub struct Datum {
 	result: [usize; 75],
+	num: usize,
 	id: usize,
 }
 
@@ -13,6 +14,12 @@ pub struct ResultWriter {
 	tx: Sender<Option<Datum>>,
 	rx: Receiver<Option<Datum>>,
 	handle: Option<JoinHandle<DsvWriterResult<()>>>,
+}
+
+impl Default for ResultWriter {
+	fn default() -> Self {
+		Self::new()
+	}
 }
 
 impl ResultWriter {
@@ -36,8 +43,12 @@ impl ResultWriter {
 		Ok(())
 	}
 
-	pub fn post(&self, id: usize, data: [usize; 75]) {
-		let datum = Datum { id, result: data };
+	pub fn post(&self, id: usize, num: usize, data: [usize; 75]) {
+		let datum = Datum {
+			id,
+			num,
+			result: data,
+		};
 		self.tx.send(Some(datum)).unwrap();
 	}
 
@@ -72,6 +83,7 @@ impl ResultWriter {
 
 			for (idx, value) in datum.result.iter().enumerate() {
 				writer.write_value_field(&datum.id, QuoteMode::AutoDetect)?;
+				writer.write_value_field(&datum.num, QuoteMode::AutoDetect)?;
 				writer.write_value_field(&idx, QuoteMode::AutoDetect)?;
 				writer.write_value_field(&value, QuoteMode::AutoDetect)?;
 				writer.end_of_record(false)?;
