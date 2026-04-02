@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="CargoProjects">
+    <cargoProject FILE="$PROJECT_DIR$/Cargo.toml">
+      <package file="$PROJECT_DIR$/bingo">
+        <feature name="default" enabled="true" />
+      </package>
+      <package file="$PROJECT_DIR$/simulator">
+        <feature name="default" enabled="true" />
+      </package>
+    </cargoProject>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="640e50b2-bf00-4d39-92b6-778fa5b5c356" name="Changes" comment="remove large output file `output.tsv` from repository" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_/repo/bingo_simulator" value="3AvbYcGVGd2ffb2huQFN5f8Lt4x" />
+    </persistenceIdMap>
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="28" />
+    <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="RsBuildProfile:dev" />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Rust File" />
+      </list>
+    </option>
+  </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="YqOvJeIQ" />
+  </component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="3AvbYcGVGd2ffb2huQFN5f8Lt4x" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Cargo.All Tests.executor&quot;: &quot;Coverage&quot;,
+    &quot;Cargo.Run bingo_hall.executor&quot;: &quot;Run&quot;,
+    &quot;Cargo.Run main.executor&quot;: &quot;Run&quot;,
+    &quot;Cargo.Test bingo_simulator.executor&quot;: &quot;Run&quot;,
+    &quot;Cargo.Test card::test.executor&quot;: &quot;Run&quot;,
+    &quot;Cargo.Test card::test::hoge.executor&quot;: &quot;Run&quot;,
+    &quot;Cargo.Test card::tests.executor&quot;: &quot;Coverage&quot;,
+    &quot;Cargo.Test card::tests::foo.executor&quot;: &quot;Run&quot;,
+    &quot;Cargo.Test card::tests::new.executor&quot;: &quot;Coverage&quot;,
+    &quot;Cargo.Test card::tests::set.executor&quot;: &quot;Run&quot;,
+    &quot;Cargo.Test card::tests::up.executor&quot;: &quot;Run&quot;,
+    &quot;Cargo.Test point::test.executor&quot;: &quot;Run&quot;,
+    &quot;Cargo.Test remaining::tests.executor&quot;: &quot;Run&quot;,
+    &quot;Cargo.Test remaining::tests::col.executor&quot;: &quot;Run&quot;,
+    &quot;Cargo.Test remaining::tests::decrement.executor&quot;: &quot;Run&quot;,
+    &quot;Cargo.Test remaining::tests::row.executor&quot;: &quot;Run&quot;,
+    &quot;Cargo.Test remaining::tests::view.executor&quot;: &quot;Run&quot;,
+    &quot;Cargo.Test row_col::tests.executor&quot;: &quot;Run&quot;,
+    &quot;Cargo.Test row_col::tests::fool_proof.executor&quot;: &quot;Run&quot;,
+    &quot;Cargo.Test row_col::tests::linear.executor&quot;: &quot;Run&quot;,
+    &quot;Cargo.Test row_col::tests::to_coordinate_test.executor&quot;: &quot;Debug&quot;,
+    &quot;Cargo.Test row_col::tests::to_linear_test.executor&quot;: &quot;Run&quot;,
+    &quot;Cargo.Test row_col::tests::try_from_linear.executor&quot;: &quot;Run&quot;,
+    &quot;Cargo.Test row_col::tests::try_to_coordinate_test.executor&quot;: &quot;Run&quot;,
+    &quot;Cargo.Test row_col::tests::try_to_linear_test.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.rust.reset.selective.auto.import&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;code.cleanup.on.save&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;initial__devel&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/repo/bingo_simulator&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;org.rust.cargo.project.model.PROJECT_DISCOVERY&quot;: &quot;true&quot;,
+    &quot;org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon&quot;: &quot;&quot;,
+    &quot;org.rust.first.attach.projects&quot;: &quot;true&quot;,
+    &quot;rearrange.code.on.save&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.completion&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecapSpentCounter">
+    <option name="endsOfQuotaMs" value="1775300422203" />
+    <option name="spentUsd" value="0.1258506" />
+  </component>
+  <component name="RecapUselessUpdatesCounter">
+    <option name="suspendCountdown" value="0" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/bingo/src" />
+      <recent name="$PROJECT_DIR$/simulator/src/bin" />
+    </key>
+  </component>
+  <component name="RsExternalLinterProjectSettings">
+    <option name="tool" value="Clippy" />
+  </component>
+  <component name="RunManager" selected="Cargo.Run bingo_hall">
+    <configuration name="All Tests" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+      <option name="command" value="test" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <envs />
+      <option name="emulateTerminal" value="true" />
+      <option name="channel" value="DEFAULT" />
+      <option name="requiredFeatures" value="true" />
+      <option name="allFeatures" value="false" />
+      <option name="withSudo" value="false" />
+      <option name="buildTarget" value="REMOTE" />
+      <option name="backtrace" value="SHORT" />
+      <option name="isRedirectInput" value="false" />
+      <option name="redirectInputPath" value="" />
+      <method v="2">
+        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Run bingo_hall" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+      <option name="command" value="run --package simulator --bin bingo_hall" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <envs />
+      <option name="emulateTerminal" value="true" />
+      <option name="channel" value="DEFAULT" />
+      <option name="requiredFeatures" value="true" />
+      <option name="allFeatures" value="false" />
+      <option name="withSudo" value="false" />
+      <option name="buildTarget" value="REMOTE" />
+      <option name="backtrace" value="SHORT" />
+      <option name="isRedirectInput" value="false" />
+      <option name="redirectInputPath" value="" />
+      <method v="2">
+        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Run main" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+      <option name="buildProfileId" value="dev" />
+      <option name="command" value="run --package simulator --bin main" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <envs />
+      <option name="emulateTerminal" value="true" />
+      <option name="channel" value="DEFAULT" />
+      <option name="requiredFeatures" value="true" />
+      <option name="allFeatures" value="false" />
+      <option name="withSudo" value="false" />
+      <option name="buildTarget" value="REMOTE" />
+      <option name="backtrace" value="SHORT" />
+      <option name="isRedirectInput" value="false" />
+      <option name="redirectInputPath" value="" />
+      <method v="2">
+        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Run simulator" type="CargoCommandRunConfiguration" factoryName="Cargo Command">
+      <option name="command" value="run --package simulator --bin simulator" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <envs />
+      <option name="emulateTerminal" value="true" />
+      <option name="channel" value="DEFAULT" />
+      <option name="requiredFeatures" value="true" />
+      <option name="allFeatures" value="false" />
+      <option name="withSudo" value="false" />
+      <option name="buildTarget" value="REMOTE" />
+      <option name="backtrace" value="SHORT" />
+      <option name="isRedirectInput" value="false" />
+      <option name="redirectInputPath" value="" />
+      <method v="2">
+        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Test bingo_simulator" type="CargoCommandRunConfiguration" factoryName="Cargo Command">
+      <option name="command" value="test --workspace" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <envs />
+      <option name="emulateTerminal" value="true" />
+      <option name="channel" value="DEFAULT" />
+      <option name="requiredFeatures" value="true" />
+      <option name="allFeatures" value="false" />
+      <option name="withSudo" value="false" />
+      <option name="buildTarget" value="REMOTE" />
+      <option name="backtrace" value="SHORT" />
+      <option name="isRedirectInput" value="false" />
+      <option name="redirectInputPath" value="" />
+      <method v="2">
+        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Test remaining::tests" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+      <option name="command" value="test --package bingo --lib remaining::tests" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <envs />
+      <option name="emulateTerminal" value="true" />
+      <option name="channel" value="DEFAULT" />
+      <option name="requiredFeatures" value="true" />
+      <option name="allFeatures" value="false" />
+      <option name="withSudo" value="false" />
+      <option name="buildTarget" value="REMOTE" />
+      <option name="backtrace" value="SHORT" />
+      <option name="isRedirectInput" value="false" />
+      <option name="redirectInputPath" value="" />
+      <method v="2">
+        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Test remaining::tests::decrement" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+      <option name="command" value="test --package bingo --lib remaining::tests::decrement -- --exact" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <envs />
+      <option name="emulateTerminal" value="true" />
+      <option name="channel" value="DEFAULT" />
+      <option name="requiredFeatures" value="true" />
+      <option name="allFeatures" value="false" />
+      <option name="withSudo" value="false" />
+      <option name="buildTarget" value="REMOTE" />
+      <option name="backtrace" value="SHORT" />
+      <option name="isRedirectInput" value="false" />
+      <option name="redirectInputPath" value="" />
+      <method v="2">
+        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Cargo.Run bingo_hall" />
+        <item itemvalue="Cargo.Run main" />
+        <item itemvalue="Cargo.All Tests" />
+        <item itemvalue="Cargo.Test remaining::tests" />
+        <item itemvalue="Cargo.Test remaining::tests::decrement" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="RustProjectSettings">
+    <option name="toolchainHomeDirectory" value="$USER_HOME$/.cargo/bin" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="640e50b2-bf00-4d39-92b6-778fa5b5c356" name="Changes" comment="" />
+      <created>1760845650634</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1760845650634</updated>
+      <workItem from="1773476041356" duration="3999000" />
+      <workItem from="1773480321529" duration="49000" />
+      <workItem from="1773480382867" duration="484000" />
+      <workItem from="1773480947196" duration="559000" />
+      <workItem from="1773560345999" duration="3680000" />
+      <workItem from="1773633533571" duration="523000" />
+      <workItem from="1773643567003" duration="7562000" />
+      <workItem from="1773804506668" duration="951000" />
+      <workItem from="1773821248396" duration="2767000" />
+      <workItem from="1773887729133" duration="2016000" />
+      <workItem from="1773907138894" duration="5028000" />
+      <workItem from="1773976351688" duration="4768000" />
+      <workItem from="1774064001853" duration="1962000" />
+      <workItem from="1774082026962" duration="4053000" />
+      <workItem from="1774166294435" duration="2100000" />
+      <workItem from="1774236573220" duration="1115000" />
+      <workItem from="1774581457042" duration="433000" />
+      <workItem from="1774596897873" duration="5466000" />
+      <workItem from="1774684523866" duration="55000" />
+    </task>
+    <task id="LOCAL-00001" summary="initialize project.">
+      <option name="closed" value="true" />
+      <created>1773476184606</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1773476184606</updated>
+    </task>
+    <task id="LOCAL-00002" summary="initialize project.">
+      <option name="closed" value="true" />
+      <created>1773476191668</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1773476191668</updated>
+    </task>
+    <task id="LOCAL-00003" summary="initialize project.">
+      <option name="closed" value="true" />
+      <created>1773481183055</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1773481183056</updated>
+    </task>
+    <task id="LOCAL-00004" summary="add boundary checks for row and column in card methods.">
+      <option name="closed" value="true" />
+      <created>1773634028969</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1773634028969</updated>
+    </task>
+    <task id="LOCAL-00005" summary="add RowCol utility for coordinate and linear index handling with tests.">
+      <option name="closed" value="true" />
+      <created>1773649350881</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1773649350881</updated>
+    </task>
+    <task id="LOCAL-00006" summary="add error handling and boundary checks for coordinate and linear index conversions in RowCol.">
+      <option name="closed" value="true" />
+      <created>1773650949157</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1773650949157</updated>
+    </task>
+    <task id="LOCAL-00007" summary="refactor card index conversion to use RowCol utility.">
+      <option name="closed" value="true" />
+      <created>1773651547687</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1773651547687</updated>
+    </task>
+    <task id="LOCAL-00008" summary="add lookup table for coordinate mapping.">
+      <option name="closed" value="true" />
+      <created>1773651879219</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1773651879219</updated>
+    </task>
+    <task id="LOCAL-00009" summary="replace Card::new with direct initialization using SAMPLE array in set test.">
+      <option name="closed" value="true" />
+      <created>1773826773625</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1773826773625</updated>
+    </task>
+    <task id="LOCAL-00010" summary="extend Card struct to include additional metadata and refactor related methods.">
+      <option name="closed" value="true" />
+      <created>1773888383762</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1773888383762</updated>
+    </task>
+    <task id="LOCAL-00011" summary="remove unused Card and RowCol modules along with their tests.">
+      <option name="closed" value="true" />
+      <created>1773892005264</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1773892005264</updated>
+    </task>
+    <task id="LOCAL-00012" summary="add Point module for coordinate handling and Iter module for directional iteration">
+      <option name="closed" value="true" />
+      <created>1773908212700</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1773908212700</updated>
+    </task>
+    <task id="LOCAL-00013" summary="add diagonal utilities to Point and extend Iter with diagonal support and tests">
+      <option name="closed" value="true" />
+      <created>1773911940610</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1773911940610</updated>
+    </task>
+    <task id="LOCAL-00014" summary="add unit test for Iter::next method">
+      <option name="closed" value="true" />
+      <created>1773913197930</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1773913197930</updated>
+    </task>
+    <task id="LOCAL-00015" summary="remove Iter module and associated tests, along with related methods in Point, Card, and lib.">
+      <option name="closed" value="true" />
+      <created>1773976647551</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1773976647552</updated>
+    </task>
+    <task id="LOCAL-00016" summary="refactor Remaining struct to consolidate decrement methods and remove redundant tests. add constants for card dimensions in Card.">
+      <option name="closed" value="true" />
+      <created>1773995667140</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1773995667140</updated>
+    </task>
+    <task id="LOCAL-00017" summary="refactor Remaining struct to consolidate decrement methods and remove redundant tests. add constants for card dimensions in Card.">
+      <option name="closed" value="true" />
+      <created>1774065259883</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1774065259883</updated>
+    </task>
+    <task id="LOCAL-00018" summary="implement Remaining struct methods and add tests for row, column, and diagonal handling">
+      <option name="closed" value="true" />
+      <created>1774083483181</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1774083483181</updated>
+    </task>
+    <task id="LOCAL-00019" summary="add placeholders for new unit tests in Point and Remaining modules">
+      <option name="closed" value="true" />
+      <created>1774085423513</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1774085423513</updated>
+    </task>
+    <task id="LOCAL-00020" summary="update `Card::set` to return `Option&lt;Point&gt;` and adjust related tests">
+      <option name="closed" value="true" />
+      <created>1774167553891</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1774167553892</updated>
+    </task>
+    <task id="LOCAL-00021" summary="remove unused test module from Point">
+      <option name="closed" value="true" />
+      <created>1774168780678</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1774168780678</updated>
+    </task>
+    <task id="LOCAL-00022" summary="refactor `foo` and `roll` functions: add constants, update loop logic, and enhance debug output">
+      <option name="closed" value="true" />
+      <created>1774581578494</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1774581578494</updated>
+    </task>
+    <task id="LOCAL-00023" summary="remove large output file `output.tsv` from repository">
+      <option name="closed" value="true" />
+      <created>1774601883285</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1774601883286</updated>
+    </task>
+    <task id="LOCAL-00024" summary="remove large output file `output.tsv` from repository">
+      <option name="closed" value="true" />
+      <created>1774602567760</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1774602567760</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="initialize project." />
+    <MESSAGE value="add boundary checks for row and column in card methods." />
+    <MESSAGE value="add RowCol utility for coordinate and linear index handling with tests." />
+    <MESSAGE value="add error handling and boundary checks for coordinate and linear index conversions in RowCol." />
+    <MESSAGE value="refactor card index conversion to use RowCol utility." />
+    <MESSAGE value="add lookup table for coordinate mapping." />
+    <MESSAGE value="replace Card::new with direct initialization using SAMPLE array in set test." />
+    <MESSAGE value="extend Card struct to include additional metadata and refactor related methods." />
+    <MESSAGE value="remove unused Card and RowCol modules along with their tests." />
+    <MESSAGE value="add Point module for coordinate handling and Iter module for directional iteration" />
+    <MESSAGE value="add diagonal utilities to Point and extend Iter with diagonal support and tests" />
+    <MESSAGE value="add unit test for Iter::next method" />
+    <MESSAGE value="remove Iter module and associated tests, along with related methods in Point, Card, and lib." />
+    <MESSAGE value="refactor Remaining struct to consolidate decrement methods and remove redundant tests. add constants for card dimensions in Card." />
+    <MESSAGE value="implement Remaining struct methods and add tests for row, column, and diagonal handling" />
+    <MESSAGE value="add placeholders for new unit tests in Point and Remaining modules" />
+    <MESSAGE value="update `Card::set` to return `Option&lt;Point&gt;` and adjust related tests" />
+    <MESSAGE value="remove unused test module from Point" />
+    <MESSAGE value="refactor `foo` and `roll` functions: add constants, update loop logic, and enhance debug output" />
+    <MESSAGE value="remove large output file `output.tsv` from repository" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove large output file `output.tsv` from repository" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/bingo/src/remaining.rs</url>
+          <line>95</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/bingo_simulator$Test_card__tests__new.info" NAME="Test card::tests::new Coverage Results" MODIFIED="1773633807453" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="RsCoverageRunner" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" CONTEXT_FILE_PATH="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/bingo_simulator$All_Tests.info" NAME="All Tests Coverage Results" MODIFIED="1774167818890" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="RsCoverageRunner" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" CONTEXT_FILE_PATH="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/bingo_simulator$Test_card__tests.info" NAME="Test card::tests Coverage Results" MODIFIED="1773633818898" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="RsCoverageRunner" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" CONTEXT_FILE_PATH="$PROJECT_DIR$" />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
+  </component>
+</project>
