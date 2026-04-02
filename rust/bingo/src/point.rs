@@ -45,7 +45,6 @@ impl Point {
 #[cfg(test)]
 mod test {
 	use super::*;
-	use crate::error::*;
 	
 	fn to_linear(row: u8, col: u8) -> u8 {
 		col * 5 + row

@@ -138,10 +138,14 @@ mod tests {
 
 		fixture.0 = [5; _];
 
+		for p in (0..5).map(|i|Point::try_from_linear(i*6).unwrap()){
+			println!("r:{} c:{}",p.row(),p.column())
+		}
+		
 		for point in (0..5).map(|i| Point::try_from_linear(i * 6).unwrap()) {
 			fixture.decrement(&point).unwrap()
 		}
-		assert_eq!(&fixture.0, &[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 3]);
+		assert_eq!(&fixture.0, &[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 4]);
 
 		fixture.0 = [5; _];
 

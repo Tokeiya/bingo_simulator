@@ -1,6 +1,6 @@
 use super::result_writer_error::{Error as ResultWriterError, Result as ResultWriterResult};
 use crossbeam_channel::{Receiver, Sender};
-use dsv_writer::Result as DsvWriterResult;
+use dsv_writer::{NewLineMode, Result as DsvWriterResult};
 use dsv_writer::{Encoder, QuoteMode, RawWriter};
 use std::fs;
 use std::thread::JoinHandle;
@@ -86,7 +86,7 @@ impl ResultWriter {
 				writer.write_value_field(&datum.num, QuoteMode::AutoDetect)?;
 				writer.write_value_field(&idx, QuoteMode::AutoDetect)?;
 				writer.write_value_field(&value, QuoteMode::AutoDetect)?;
-				writer.end_of_record(false)?;
+				writer.end_of_record(NewLineMode::Lf,false)?;
 			}
 		}
 
