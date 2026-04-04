@@ -1,18 +1,15 @@
 use bingo::Card;
-use dsv_writer::{Encoder, QuoteMode, RawWriter};
 use rand::SeedableRng;
 use rand::prelude::SliceRandom;
 use rand_chacha::ChaCha20Rng;
 use rand_core::Rng;
 use rayon::prelude::*;
 use simulator::result_writer::ResultWriter;
-use simulator::result_writer_error::*;
 use std::cell;
 use std::io::Write;
 use std::sync::LazyLock;
 use std::sync::atomic::{AtomicU64, AtomicUsize, Ordering};
 
-const N: usize = 50;
 const ROUND: usize = 5;
 
 static STREAM_ID: AtomicU64 = AtomicU64::new(0);
