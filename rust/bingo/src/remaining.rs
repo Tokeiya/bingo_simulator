@@ -68,7 +68,6 @@ impl Remaining {
 #[cfg(test)]
 mod tests {
 	use super::*;
-	use crate::error::*;
 	
 	#[test]
 	fn new() {
@@ -111,7 +110,7 @@ mod tests {
 
 	#[test]
 	fn main_diagonal() {
-		let mut fixture = Remaining([1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 5, 4]);
+		let fixture = Remaining([1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 5, 4]);
 
 		assert_eq!(fixture.main_diagonal(), 5);
 	}
