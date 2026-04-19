@@ -5,7 +5,7 @@ use dsv_writer::{Encoder, QuoteMode, RawWriter};
 use std::fs;
 use std::thread::JoinHandle;
 pub struct Datum {
-	result: [usize; 75],
+	result: Vec<usize>,
 	num: usize,
 	id: usize,
 }
@@ -43,7 +43,7 @@ impl ResultWriter {
 		Ok(())
 	}
 
-	pub fn post(&self, id: usize, num: usize, data: [usize; 75]) {
+	pub fn post(&self, id: usize, num: usize, data: Vec<usize>) {
 		let datum = Datum {
 			id,
 			num,
