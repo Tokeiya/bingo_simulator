@@ -31,13 +31,13 @@ impl Point {
 		self.0 as usize
 	}
 	pub fn lies_on_main_diagonal(&self) -> bool {
-		self.0 % 6 == 0
+		self.0.is_multiple_of(6)
 	}
 	pub fn lies_on_anti_diagonal(&self) -> bool {
 		if self.0 == 0 || self.0 == 24 {
 			false
 		} else {
-			self.0 % 4 == 0
+			self.0.is_multiple_of(4)
 		}
 	}
 }
@@ -45,7 +45,7 @@ impl Point {
 #[cfg(test)]
 mod test {
 	use super::*;
-	
+
 	fn to_linear(row: u8, col: u8) -> u8 {
 		col * 5 + row
 	}

@@ -124,7 +124,7 @@ mod test {
 	use super::*;
 	use rand::TryRng;
 	use std::convert::Infallible;
-	
+
 	struct MockRnd;
 
 	impl TryRng for MockRnd {

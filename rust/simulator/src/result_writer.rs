@@ -1,11 +1,16 @@
 use super::result_writer_error::{Error as ResultWriterError, Result as ResultWriterResult};
 use crossbeam_channel::{Receiver, Sender};
-use dsv_writer::{NewLineMode, Result as DsvWriterResult};
 use dsv_writer::{Encoder, QuoteMode, RawWriter};
+use dsv_writer::{NewLineMode, Result as DsvWriterResult};
 use std::fs;
 use std::thread::JoinHandle;
+
+pub struct Element {
+	pub round: usize,
+	pub count: usize,
+}
 pub struct Datum {
-	result: Vec<usize>,
+	result: Vec<Element>,
 	num: usize,
 	id: usize,
 }
@@ -43,7 +48,7 @@ impl ResultWriter {
 		Ok(())
 	}
 
-	pub fn post(&self, id: usize, num: usize, data: Vec<usize>) {
+	pub fn post(&self, id: usize, num: usize, data: Vec<Element>) {
 		let datum = Datum {
 			id,
 			num,
@@ -81,12 +86,12 @@ impl ResultWriter {
 				break;
 			};
 
-			for (idx, value) in datum.result.iter().enumerate() {
+			for value in datum.result.iter() {
 				writer.write_value_field(&datum.id, QuoteMode::AutoDetect)?;
 				writer.write_value_field(&datum.num, QuoteMode::AutoDetect)?;
-				writer.write_value_field(&idx, QuoteMode::AutoDetect)?;
-				writer.write_value_field(&value, QuoteMode::AutoDetect)?;
-				writer.end_of_record(NewLineMode::Lf,false)?;
+				writer.write_value_field(&value.round, QuoteMode::AutoDetect)?;
+				writer.write_value_field(&value.count, QuoteMode::AutoDetect)?;
+				writer.end_of_record(NewLineMode::Lf, false)?;
 			}
 		}
 

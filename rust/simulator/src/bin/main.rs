@@ -37,7 +37,7 @@ fn foo() {
 
 	dbg!(ans);
 
-	dbg!(ans as f64 / ROUND as f64);
+	dbg!(ans / ROUND as f64);
 
 	for idx in 0..75 {
 		println!("idx:{idx} cnt:{}", accum[idx]);

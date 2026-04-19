@@ -9,6 +9,12 @@ pub(super) const ANTI_DIAGONAL: usize = 11;
 #[derive(Debug)]
 pub struct Remaining([u8; 12]);
 
+impl Default for Remaining {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Remaining {
 	pub fn new() -> Self {
 		Self([5; _])
@@ -68,7 +74,7 @@ impl Remaining {
 #[cfg(test)]
 mod tests {
 	use super::*;
-	
+
 	#[test]
 	fn new() {
 		let fixture = Remaining::new();
@@ -137,10 +143,10 @@ mod tests {
 
 		fixture.0 = [5; _];
 
-		for p in (0..5).map(|i|Point::try_from_linear(i*6).unwrap()){
-			println!("r:{} c:{}",p.row(),p.column())
+		for p in (0..5).map(|i| Point::try_from_linear(i * 6).unwrap()) {
+			println!("r:{} c:{}", p.row(), p.column())
 		}
-		
+
 		for point in (0..5).map(|i| Point::try_from_linear(i * 6).unwrap()) {
 			fixture.decrement(&point).unwrap()
 		}

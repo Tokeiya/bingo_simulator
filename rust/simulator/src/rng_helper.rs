@@ -1,7 +1,7 @@
-use std::sync::atomic::{AtomicU64, Ordering};
-use std::sync::LazyLock;
 use rand_chacha::ChaCha20Rng;
 use rand_core::{Rng, SeedableRng};
+use std::sync::LazyLock;
+use std::sync::atomic::{AtomicU64, Ordering};
 
 static STREAM_ID: AtomicU64 = AtomicU64::new(0);
 
