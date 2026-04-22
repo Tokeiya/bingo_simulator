@@ -8,15 +8,16 @@ use std::cell;
 use std::io::Write;
 use std::sync::atomic::{AtomicUsize, Ordering};
 
-const ROUND: usize = 10_000;
+const ROUND: usize = 100_000;
 
 thread_local! {
 	static RNG:cell::RefCell<ChaCha20Rng> = cell::RefCell::new(generate());
 }
 
+//noinspection DuplicatedCode
 fn main() {
 	let mut file = std::fs::File::create("../data/sample.tsv").unwrap();
-	_ = file.write(b"id\tcards\tround\tcount\n").unwrap();
+	_ = file.write(b"play_id\tcards\tround\thit_count\n").unwrap();
 
 	let mut writer = ResultWriter::new();
 	writer.start(file).unwrap();
@@ -43,7 +44,16 @@ fn main() {
 						if let Some(crd) = card {
 							_ = crd.set(*ball);
 							if crd.remaining().view().contains(&0) {
-								accum[c] += 1;
+								if c < 3 {
+									println!("error!:{c}");
+
+									dbg!(crd.remaining());
+
+									println!("{}", &crd);
+
+									println!();
+								}
+								accum[c + 1] += 1;
 								*card = None;
 							}
 						} else {

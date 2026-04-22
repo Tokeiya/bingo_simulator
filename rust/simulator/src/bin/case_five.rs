@@ -15,9 +15,10 @@ thread_local! {
 	static RNG:cell::RefCell<ChaCha20Rng> = cell::RefCell::new(generate());
 }
 
+//noinspection DuplicatedCode
 fn main() {
-	let mut file = fs::File::create("../data/case_five1.tsv").unwrap();
-	_ = file.write(b"id\tcards\tround\tcount\n").unwrap();
+	let mut file = fs::File::create("../data/case_five.tsv").unwrap();
+	_ = file.write(b"play_id\tcards\tround\thit_count\n").unwrap();
 
 	let first_hit: [AtomicUsize; 5] = [
 		AtomicUsize::new(0),
@@ -50,7 +51,7 @@ fn main() {
 					if let Some(crd) = card {
 						_ = crd.set(ball);
 						if crd.remaining().view().contains(&0) {
-							accum[c] += 1;
+							accum[c + 1] += 1;
 							*card = None;
 							cnt += 1;
 						}
