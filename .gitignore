@@ -22,3 +22,5 @@ target
 
 **/*.tsv
 
+**/*.sqlite
+**/*.sqlite3

@@ -8,7 +8,7 @@ use std::cell;
 use std::io::Write;
 use std::sync::atomic::{AtomicUsize, Ordering};
 
-const ROUND: usize = 100_000;
+const ROUND: usize = 10_000;
 
 thread_local! {
 	static RNG:cell::RefCell<ChaCha20Rng> = cell::RefCell::new(generate());
