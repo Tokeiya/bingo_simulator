@@ -2,49 +2,53 @@ use dsv_writer::*;
 
 pub const ROUND_OFFSET: usize = 4;
 const ROUND_SIZE: usize = 68;
-pub struct Table<const N: usize> {
-	data: [[usize; ROUND_SIZE]; N],
+const RANK_SIZE: usize = ROUND_SIZE;
+pub struct Table {
+	data: [[usize; ROUND_SIZE]; RANK_SIZE],
 }
 
-impl<const N: usize> Default for Table<N> {
+impl Default for Table {
 	fn default() -> Self {
 		Self {
-			data: [[0; ROUND_SIZE]; N],
+			data: [[0; RANK_SIZE]; ROUND_SIZE],
 		}
 	}
 }
 
-impl<const N: usize> Table<N> {
-	pub fn set(&mut self, data: &[usize]) {
-		for rank in 0..data.len() {
-			let round = data[rank];
-			self.data[rank][round - ROUND_OFFSET] += 1;
+impl Table {
+	pub fn set(&mut self, rounds: &[usize]) {
+		let mut recent = 0usize;
+		let mut rank = 0usize;
+
+		for &round in rounds {
+			if recent != round {
+				recent = round;
+				rank += 1;
+			}
+
+			self.data[round - ROUND_OFFSET][rank] += 1;
 		}
 	}
 
-	pub fn view(&self) -> &[[usize; ROUND_SIZE]] {
+	pub fn view(&self) -> &[[usize; RANK_SIZE]; ROUND_SIZE] {
 		&self.data
 	}
 }
 
-impl<const N: usize> ToDsv<std::io::Error> for Table<N> {
+impl ToDsv<std::io::Error> for Table {
 	fn to_dsv<T: Encoder>(&self, writer: &mut T) -> ToDsvResult<(), std::io::Error> {
+		writer.write_str_field("round", QuoteMode::AutoDetect)?;
 		writer.write_str_field("rank", QuoteMode::AutoDetect)?;
-
-		for idx in ROUND_OFFSET..=ROUND_OFFSET + ROUND_SIZE {
-			writer.write_value_field(&idx, QuoteMode::AutoDetect)?;
-		}
-
+		writer.write_str_field("count", QuoteMode::AutoDetect)?;
 		writer.end_of_record(false)?;
 
-		for rank in 0..self.data.len() {
-			writer.write_value_field(&rank, QuoteMode::AutoDetect)?;
-
-			for value in self.data[rank].iter() {
-				writer.write_value_field(&value, QuoteMode::AutoDetect)?;
+		for round in 0..ROUND_SIZE {
+			for (rank, &count) in self.data[round].iter().enumerate() {
+				writer.write_value_field(&(round + ROUND_OFFSET), QuoteMode::AutoDetect)?;
+				writer.write_value_field(&rank, QuoteMode::AutoDetect)?;
+				writer.write_value_field(&count, QuoteMode::AutoDetect)?;
+				writer.end_of_record(false)?;
 			}
-
-			writer.end_of_record(false)?;
 		}
 
 		Ok(())
