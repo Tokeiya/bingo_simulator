@@ -1,9 +1,7 @@
 use dsv_reader::*;
-use dsv_reader::*;
 use dsv_writer::*;
 use std::collections::{HashMap, HashSet};
 use std::fs::File;
-use std::io::{BufRead, BufReader};
 
 const SCR: &str = "../data/sample1.tsv";
 const OUT_DIR: &str = "/mnt/wsl/data/sort";
@@ -46,7 +44,7 @@ fn split() {
 
 	for i in 1..=20 {
 		let file = File::create(format!("{OUT_DIR}/{:03}.tsv", i * 5)).unwrap();
-		let mut writer = RawWriter::try_new(file, '\t').unwrap();
+		let mut writer = RawWriter::try_new(file, '\t', NewLine::Lf).unwrap();
 
 		writer
 			.write_str_field("play_id", QuoteMode::AutoDetect)
@@ -61,7 +59,7 @@ fn split() {
 			.write_str_field("hit_count", QuoteMode::AutoDetect)
 			.unwrap();
 
-		writer.end_of_record(NewLineMode::Lf, false).unwrap();
+		writer.end_of_record(false).unwrap();
 
 		dict.insert(i * 5, writer);
 	}
@@ -99,5 +97,5 @@ fn write(scr: &[String], writer: &mut RawWriter<File>) {
 		writer.write_str_field(s, QuoteMode::AutoDetect).unwrap();
 	}
 
-	writer.end_of_record(NewLineMode::Lf, false).unwrap();
+	writer.end_of_record(false).unwrap();
 }
