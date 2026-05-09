@@ -50,7 +50,6 @@ impl ToDsv<std::io::Error> for Table {
 				writer.end_of_record(false)?;
 			}
 		}
-
 		Ok(())
 	}
 }
