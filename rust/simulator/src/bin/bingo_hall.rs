@@ -8,7 +8,7 @@ use std::cell;
 use std::io::Write;
 use std::sync::atomic::{AtomicUsize, Ordering};
 
-const ROUND: usize = 100_000;
+const ROUND: usize = 1_000_000;
 
 thread_local! {
 	static RNG:cell::RefCell<ChaCha20Rng> = cell::RefCell::new(generate());
@@ -16,7 +16,7 @@ thread_local! {
 
 //noinspection DuplicatedCode
 fn main() {
-	let mut file = std::fs::File::create("../data/sample.tsv").unwrap();
+	let mut file = std::fs::File::create("../data/sample1.tsv").unwrap();
 	_ = file.write(b"play_id\tcards\tround\thit_count\n").unwrap();
 
 	let mut writer = ResultWriter::new();

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="bingo@dell1" uuid="83077cde-804a-4724-a59b-5d73429d102e">
+    <data-source source="LOCAL" name="Dell" uuid="40af6b1a-13e9-4802-a8ab-57938b1eeb1a">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>

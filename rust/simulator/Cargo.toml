@@ -14,3 +14,5 @@ rayon = "*"
 crossbeam-channel = "*"
 common_errors = { git = "https://github.com/Tokeiya/common_errors", branch = "master" }
 thiserror = "*"
+dsv_reader = { git = "https://github.com/Tokeiya/dsv_reader.git", tag = "VER_0_4_1", package = "dsv_reader" }
+postgres = "*"
