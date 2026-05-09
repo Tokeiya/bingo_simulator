@@ -1,7 +1,7 @@
 use super::result_writer_error::{Error as ResultWriterError, Result as ResultWriterResult};
 use crossbeam_channel::{Receiver, Sender};
 use dsv_writer::{Encoder, QuoteMode, RawWriter};
-use dsv_writer::{NewLineMode, Result as DsvWriterResult};
+use dsv_writer::{NewLine, Result as DsvWriterResult};
 use std::fs;
 use std::thread::JoinHandle;
 
@@ -39,7 +39,7 @@ impl ResultWriter {
 	}
 
 	pub fn start(&mut self, file: fs::File) -> Result<(), common_errors::invalid_argument::Error> {
-		let writer = dsv_writer::RawWriter::try_new(file, '\t')?;
+		let writer = dsv_writer::RawWriter::try_new(file, '\t',NewLine::Lf)?;
 		let r = self.rx.clone();
 		let handle = std::thread::spawn(move || Self::thread_proc(r, writer));
 
@@ -91,7 +91,7 @@ impl ResultWriter {
 				writer.write_value_field(&datum.num, QuoteMode::AutoDetect)?;
 				writer.write_value_field(&value.round, QuoteMode::AutoDetect)?;
 				writer.write_value_field(&value.count, QuoteMode::AutoDetect)?;
-				writer.end_of_record(NewLineMode::Lf, false)?;
+				writer.end_of_record(false)?;
 			}
 		}
 
