@@ -22,4 +22,6 @@ target
 
 **/*.tsv
 
+**/*.sqlite
+**/*.sqlite3
 /data/images
