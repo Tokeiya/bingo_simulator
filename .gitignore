@@ -25,3 +25,4 @@ target
 **/*.sqlite
 **/*.sqlite3
 /data/images
+*.png
