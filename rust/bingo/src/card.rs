@@ -68,9 +68,9 @@ impl Card {
 
 		for i in rng {
 			if self.storage[i] == value as i8 {
-				let p = Point::try_from_linear(i as u8).unwrap();
+				let p = Point::try_from_linear(i as u8)?;
 				self.storage[i] *= -1;
-				self.remaining.decrement(&p).unwrap();
+				self.remaining.decrement(&p)?;
 				return Ok(Some(p));
 			}
 		}

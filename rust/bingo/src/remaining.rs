@@ -7,17 +7,17 @@ pub(super) const MAIN_DIAGONAL: usize = 10;
 pub(super) const ANTI_DIAGONAL: usize = 11;
 
 #[derive(Debug)]
-pub struct Remaining([u8; 12]);
+pub struct Remaining([u8; 12], usize);
 
 impl Default for Remaining {
-    fn default() -> Self {
-        Self::new()
-    }
+	fn default() -> Self {
+		Self::new()
+	}
 }
 
 impl Remaining {
 	pub fn new() -> Self {
-		Self([5; _])
+		Self([5; _], 0)
 	}
 	pub fn row(&self, idx: usize) -> Result<usize> {
 		if idx >= 5 {
@@ -55,12 +55,18 @@ impl Remaining {
 			Err(Error::RemainingIsZero)
 		} else {
 			self.0[row] -= 1;
+			self.1 += if self.0[row] == 0 { 1 } else { 0 };
+
 			self.0[col] -= 1;
+			self.1 += if self.0[col] == 0 { 1 } else { 0 };
+
 			if lies_main {
 				self.0[MAIN_DIAGONAL] -= 1;
+				self.1 += if self.0[MAIN_DIAGONAL] == 0 { 1 } else { 0 };
 			}
 			if lies_anti {
 				self.0[ANTI_DIAGONAL] -= 1;
+				self.1 += if self.0[ANTI_DIAGONAL] == 0 { 1 } else { 0 };
 			}
 
 			Ok(())
@@ -69,12 +75,16 @@ impl Remaining {
 	pub fn view(&self) -> &[u8] {
 		&self.0
 	}
+
+	pub fn hit_count(&self) -> usize {
+		self.1
+	}
 }
 
 #[cfg(test)]
 mod tests {
 	use super::*;
-
+	
 	#[test]
 	fn new() {
 		let fixture = Remaining::new();
@@ -105,7 +115,7 @@ mod tests {
 
 	#[test]
 	fn col() {
-		let fixture = Remaining(std::array::from_fn(|x| x as u8));
+		let fixture = Remaining(std::array::from_fn(|x| x as u8), 0);
 
 		for i in 0..5 {
 			assert_eq!(fixture.column(i).unwrap(), i + 5);
@@ -116,14 +126,14 @@ mod tests {
 
 	#[test]
 	fn main_diagonal() {
-		let fixture = Remaining([1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 5, 4]);
+		let fixture = Remaining([1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 5, 4], 0);
 
 		assert_eq!(fixture.main_diagonal(), 5);
 	}
 
 	#[test]
 	fn decrement() {
-		let mut fixture = Remaining([5; 12]);
+		let mut fixture = Remaining([5; 12], 0);
 		for point in (0..5).map(|r| Point::try_from_grid(r, 0).unwrap()) {
 			fixture.decrement(&point).unwrap()
 		}
@@ -163,8 +173,60 @@ mod tests {
 
 	#[test]
 	fn view() {
-		let fixture = Remaining(std::array::from_fn(|x| x as u8));
+		let fixture = Remaining(std::array::from_fn(|x| x as u8), 0);
 
 		assert_eq!(&fixture.0, fixture.view());
+	}
+
+	#[test]
+	fn hit_count() {
+		let mut fixture = Remaining([5; _], 0);
+		assert_eq!(fixture.hit_count(), 0);
+
+		for c in 0..5 {
+			_ = fixture
+				.decrement(&Point::try_from_grid(0, c).unwrap())
+				.unwrap();
+
+			if c != 4 {
+				assert_eq!(fixture.hit_count(), 0);
+			}
+		}
+
+		assert_eq!(fixture.hit_count(), 1);
+
+		for r in 1..5 {
+			_ = fixture
+				.decrement(&Point::try_from_grid(r, 0).unwrap())
+				.unwrap();
+
+			if r != 4 {
+				assert_eq!(fixture.hit_count(), 1);
+			}
+		}
+
+		assert_eq!(fixture.hit_count(), 2);
+
+		for l in vec![6, 12, 18, 24] {
+			_ = fixture
+				.decrement(&Point::try_from_linear(l).unwrap())
+				.unwrap();
+
+			if l != 24 {
+				assert_eq!(fixture.hit_count(), 2);
+			}
+		}
+
+		assert_eq!(fixture.hit_count(), 3);
+
+		_ = fixture
+			.decrement(&Point::try_from_linear(16).unwrap())
+			.unwrap();
+		assert_eq!(fixture.hit_count(), 3);
+
+		_ = fixture
+			.decrement(&Point::try_from_linear(8).unwrap())
+			.unwrap();
+		assert_eq!(fixture.hit_count(), 4);
 	}
 }
