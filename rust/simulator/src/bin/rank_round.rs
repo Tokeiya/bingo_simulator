@@ -6,7 +6,6 @@ use rayon::prelude::*;
 use simulator::aggregation::Table;
 use simulator::rng_helper::generate;
 use std::cell;
-use std::io::Write;
 
 const ITERATION: usize = 1_000_000;
 const PLAYER: usize = 50;
