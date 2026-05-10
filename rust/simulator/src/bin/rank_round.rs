@@ -1,4 +1,5 @@
 use bingo::Card;
+use clap::Parser;
 use dsv_writer::{NewLine, ToDsv};
 use rand::prelude::SliceRandom;
 use rand_chacha::ChaCha20Rng;
@@ -6,10 +7,24 @@ use rayon::prelude::*;
 use simulator::aggregation::Table;
 use simulator::rng_helper::generate;
 use std::cell;
-use std::io::Write;
+use std::path::{Path, PathBuf};
 
-const ITERATION: usize = 1_000_000;
-const PLAYER: usize = 50;
+#[derive(Parser, Debug)]
+#[command(version,about,long_about = None)]
+struct Args {
+	#[arg(short, long)]
+	iteration: usize,
+	#[arg(short, long)]
+	player: usize,
+	#[arg(short, long, default_value = "../data/")]
+	path: String,
+}
+
+impl Args {
+	pub fn create_path(&self, channel: usize) -> PathBuf {
+		Path::new(&self.path).join(format!("{}_{channel}.tsv", self.player))
+	}
+}
 
 thread_local! {
 	static RNG:cell::RefCell<ChaCha20Rng> = cell::RefCell::new(generate());
@@ -17,17 +32,19 @@ thread_local! {
 }
 
 fn main() {
+	let args = Args::parse();
+
 	(0..20usize).into_par_iter().for_each(|channel| {
-		for i in 0..ITERATION {
-			play(PLAYER);
+		for i in 0..args.iteration {
+			play(args.player);
 
 			if i & 0xffff == 0 {
-				println!("{channel} {i} / {ITERATION} completed")
+				println!("{channel} {i} / {} completed", args.iteration)
 			}
 		}
 
 		let mut writer = dsv_writer::RawWriter::try_new(
-			std::fs::File::create(format!("../data/{PLAYER}_{channel}.tsv")).unwrap(),
+			std::fs::File::create(args.create_path(channel)).unwrap(),
 			'\t',
 			NewLine::Lf,
 		)
