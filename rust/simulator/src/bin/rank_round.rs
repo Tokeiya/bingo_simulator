@@ -12,9 +12,9 @@ use std::path::{Path, PathBuf};
 #[derive(Parser, Debug)]
 #[command(version,about,long_about = None)]
 struct Args {
-	#[arg(short, long)]
+	#[arg(short = 'i', long)]
 	iteration: usize,
-	#[arg(short, long)]
+	#[arg(short = 'p', long)]
 	player: usize,
 	#[arg(short, long, default_value = "../data/")]
 	path: String,
@@ -22,7 +22,7 @@ struct Args {
 
 impl Args {
 	pub fn create_path(&self, channel: usize) -> PathBuf {
-		Path::new(&self.path).join(format!("{}_{channel}.tsv", self.player))
+		Path::new(&self.path).join(format!("{:00}_{channel:00}.tsv", self.player))
 	}
 }
 
