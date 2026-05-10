@@ -59,7 +59,7 @@ fn main() {
 						}
 					}
 				}
-				
+
 				let mut vec = Vec::<Element>::new();
 
 				for (idx, &cnt) in accum.iter().enumerate() {
