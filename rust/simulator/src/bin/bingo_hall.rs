@@ -17,6 +17,8 @@ thread_local! {
 //noinspection DuplicatedCode
 fn main() {
 	let mut file = std::fs::File::create("../data/sample1.tsv").unwrap();
+	//	let mut file = std::fs::File::create("/dev/null").unwrap();
+
 	_ = file.write(b"play_id\tcards\tround\thit_count\n").unwrap();
 
 	let mut writer = ResultWriter::new();
@@ -34,33 +36,31 @@ fn main() {
 					.map(|_| Some(Card::new(&mut rng.borrow_mut(), true)))
 					.collect::<Vec<_>>();
 
-				let mut balls: [u8; 75] = std::array::from_fn(|i| i as u8);
+				let mut balls: [u8; 75] = std::array::from_fn(|i| (i + 1) as u8);
 				balls.shuffle(&mut rng.borrow_mut());
 
-				let mut accum: [usize; 75] = [0; _];
+				let mut accum: [usize; 76] = [0; _];
+				let mut card_count = 0usize;
 
-				for (c, ball) in balls.iter().enumerate() {
+				'outer: for (c, ball) in balls.iter().enumerate() {
 					for card in cards.iter_mut() {
 						if let Some(crd) = card {
 							_ = crd.set(*ball);
-							if crd.remaining().view().contains(&0) {
-								if c < 3 {
-									println!("error!:{c}");
-
-									dbg!(crd.remaining());
-
-									println!("{}", &crd);
-
-									println!();
-								}
+							if crd.remaining().hit_count() != 0 {
 								accum[c + 1] += 1;
 								*card = None;
+								card_count += 1;
+								if card_count == n {
+									break 'outer;
+								}
 							}
 						} else {
 							continue;
 						}
 					}
 				}
+
+				assert!(cards.iter().all(|card| card.is_none()));
 
 				let mut vec = Vec::<Element>::new();
 
