@@ -8,7 +8,7 @@ fn main() {
 }
 
 fn foo() {
-	const ROUND: usize = 100_000_000;
+	const ROUND: usize = 10_000_000;
 	let mut rnd = ChaCha20Rng::from_seed([42; _]);
 	let mut accum: [usize; 75] = [0; _];
 
