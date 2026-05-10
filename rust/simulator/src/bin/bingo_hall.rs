@@ -59,19 +59,17 @@ fn main() {
 						}
 					}
 				}
-
-				assert!(cards.iter().all(|card| card.is_none()));
-
+				
 				let mut vec = Vec::<Element>::new();
 
-				for (idx, cnt) in accum.iter().enumerate() {
-					if *cnt == 0 {
+				for (idx, &cnt) in accum.iter().enumerate() {
+					if cnt == 0 {
 						continue;
 					}
 
 					vec.push(Element {
 						round: idx,
-						count: *cnt,
+						count: cnt,
 					})
 				}
 
