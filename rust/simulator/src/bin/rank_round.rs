@@ -46,7 +46,7 @@ fn main() {
 
 	(0..20usize).into_par_iter().for_each(|channel| {
 		let mut rng = generate();
-		let mut table = Table::new(args.player);
+		let mut table = Table::new(args.player, args.iteration);
 
 		for i in 0..args.iteration {
 			play(args.player, &mut rng, &mut table);
