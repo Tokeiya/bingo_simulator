@@ -26,17 +26,20 @@ impl Args {
 	}
 }
 
-thread_local! {
-	static RNG:cell::RefCell<ChaCha20Rng> = cell::RefCell::new(generate());
-	static ACCUM:cell::RefCell<Table> = cell::RefCell::new(Table::default());
-}
+// thread_local! {
+// 	static RNG:cell::RefCell<ChaCha20Rng> = cell::RefCell::new(generate());
+// 	static ACCUM:cell::RefCell<Table> = cell::RefCell::new(Table::default());
+// }
 
 fn main() {
 	let args = Args::parse();
 
 	(0..20usize).into_par_iter().for_each(|channel| {
+		let mut rng = generate();
+		let mut table = Table::default();
+
 		for i in 0..args.iteration {
-			play(args.player);
+			play(args.player, &mut rng, &mut table);
 
 			if i & 0xffff == 0 {
 				println!("{channel} {i} / {} completed", args.iteration)
@@ -50,27 +53,25 @@ fn main() {
 		)
 		.unwrap();
 
-		ACCUM.with(|a| a.borrow().to_dsv(&mut writer).unwrap());
+		table.to_dsv(&mut writer).unwrap();
 	});
 }
 
-fn initialize(n: usize) -> ([u8; 75], Vec<Option<Card>>) {
+fn initialize(n: usize, rng: &mut impl rand::Rng) -> ([u8; 75], Vec<Option<Card>>) {
 	let mut balls = std::array::from_fn::<_, 75, _>(|i| (i + 1) as u8);
 	let mut vec: Vec<Option<Card>> = Vec::with_capacity(n);
 
-	RNG.with(|rng| {
-		balls.shuffle(&mut rng.borrow_mut());
+	balls.shuffle(rng);
 
-		for _ in 0..n {
-			vec.push(Card::new(&mut rng.borrow_mut(), true).into());
-		}
-	});
+	for _ in 0..n {
+		vec.push(Card::new(rng, true).into());
+	}
 
 	(balls, vec)
 }
 
-fn play(n: usize) {
-	let (balls, mut cards) = initialize(n);
+fn play(n: usize, rng: &mut impl rand::Rng, table: &mut Table) {
+	let (balls, mut cards) = initialize(n, rng);
 	let mut accum = Vec::<usize>::with_capacity(n);
 	let mut c = 0usize;
 
@@ -100,6 +101,5 @@ fn play(n: usize) {
 	}
 
 	assert!(cards.iter().all(|c| c.is_none()));
-
-	ACCUM.with(|acc| acc.borrow_mut().set(&accum));
+	table.set(&accum);
 }
