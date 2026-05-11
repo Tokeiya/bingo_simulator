@@ -36,6 +36,8 @@ fn main() {
 		.unwrap();
 
 	(0..args.count).into_par_iter().for_each(|i| {
+		println!("{i} process start.");
+
 		let cards = args.begin + (i * args.step);
 		let mut rng = generate();
 		let mut table = Table::new(cards, args.iteration);
