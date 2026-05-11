@@ -85,7 +85,7 @@ fn play(n: usize, rng: &mut impl rand::Rng, table: &mut Table) {
 				_ = crd.set(*b).unwrap();
 				let expected = crd.remaining().view().iter().filter(|&&v| v == 0).count();
 				let actual = crd.remaining().hit_count();
-				assert_eq!(
+				debug_assert_eq!(
 					expected, actual,
 					"Expected {} hits, got {}",
 					expected, actual
@@ -104,6 +104,6 @@ fn play(n: usize, rng: &mut impl rand::Rng, table: &mut Table) {
 		}
 	}
 
-	assert!(cards.iter().all(|c| c.is_none()));
+	debug_assert!(cards.iter().all(|c| c.is_none()));
 	table.set(&accum);
 }
