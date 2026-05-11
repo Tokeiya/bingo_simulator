@@ -1,16 +1,24 @@
 use dsv_writer::*;
+use std::sync::atomic::{AtomicUsize, Ordering};
 
 pub const ROUND_OFFSET: usize = 4;
 const ROUND_SIZE: usize = 68;
 const RANK_SIZE: usize = ROUND_SIZE;
+
+static SEED: AtomicUsize = AtomicUsize::new(0);
+
 pub struct Table {
 	data: [[usize; ROUND_SIZE]; RANK_SIZE],
+	id: usize,
+	cards: usize,
 }
 
-impl Default for Table {
-	fn default() -> Self {
+impl Table {
+	pub fn new(cards: usize) -> Self {
 		Self {
 			data: [[0; RANK_SIZE]; ROUND_SIZE],
+			id: SEED.fetch_add(1, Ordering::Relaxed),
+			cards,
 		}
 	}
 }
@@ -37,6 +45,8 @@ impl Table {
 
 impl ToDsv<std::io::Error> for Table {
 	fn to_dsv<T: Encoder>(&self, writer: &mut T) -> ToDsvResult<(), std::io::Error> {
+		writer.write_str_field("id", QuoteMode::AutoDetect)?;
+		writer.write_str_field("cards", QuoteMode::AutoDetect)?;
 		writer.write_str_field("round", QuoteMode::AutoDetect)?;
 		writer.write_str_field("rank", QuoteMode::AutoDetect)?;
 		writer.write_str_field("count", QuoteMode::AutoDetect)?;
@@ -44,6 +54,8 @@ impl ToDsv<std::io::Error> for Table {
 
 		for round in 0..ROUND_SIZE {
 			for (rank, &count) in self.data[round].iter().enumerate() {
+				writer.write_value_field(&self.id, QuoteMode::AutoDetect)?;
+				writer.write_value_field(&self.cards, QuoteMode::AutoDetect)?;
 				writer.write_value_field(&(round + ROUND_OFFSET), QuoteMode::AutoDetect)?;
 				writer.write_value_field(&rank, QuoteMode::AutoDetect)?;
 				writer.write_value_field(&count, QuoteMode::AutoDetect)?;
