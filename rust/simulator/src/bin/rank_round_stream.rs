@@ -1,12 +1,9 @@
-use bingo::*;
 use clap::Parser;
 use dsv_writer::{NewLine, RawWriter, ToDsv};
-use rand::prelude::SliceRandom;
 use rayon::prelude::*;
 use simulator::aggregation::Table;
 use simulator::play::play;
 use simulator::rng_helper::generate;
-use std::cell::OnceCell;
 use std::fs::File;
 use std::sync::{Mutex, OnceLock};
 

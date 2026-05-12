@@ -1,13 +1,9 @@
-use bingo::Card;
 use clap::Parser;
 use dsv_writer::{NewLine, RawWriter, ToDsv};
-use rand::prelude::SliceRandom;
-use rand_chacha::ChaCha20Rng;
 use rayon::prelude::*;
 use simulator::aggregation::Table;
 use simulator::play::play;
 use simulator::rng_helper::generate;
-use std::cell;
 use std::fs::File;
 use std::path::{Path, PathBuf};
 use std::sync::{Mutex, OnceLock};
