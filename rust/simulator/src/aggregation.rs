@@ -47,14 +47,6 @@ impl Table {
 
 impl ToDsv<std::io::Error> for Table {
 	fn to_dsv<T: Encoder>(&self, writer: &mut T) -> ToDsvResult<(), std::io::Error> {
-		writer.write_str_field("id", QuoteMode::AutoDetect)?;
-		writer.write_str_field("iteration", QuoteMode::AutoDetect)?;
-		writer.write_str_field("cards", QuoteMode::AutoDetect)?;
-		writer.write_str_field("round", QuoteMode::AutoDetect)?;
-		writer.write_str_field("rank", QuoteMode::AutoDetect)?;
-		writer.write_str_field("count", QuoteMode::AutoDetect)?;
-		writer.end_of_record(false)?;
-
 		for round in 0..ROUND_SIZE {
 			for (rank, &count) in self.data[round].iter().enumerate() {
 				writer.write_value_field(&self.id, QuoteMode::AutoDetect)?;

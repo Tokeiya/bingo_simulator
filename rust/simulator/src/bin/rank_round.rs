@@ -1,11 +1,10 @@
 use clap::Parser;
-use dsv_writer::{NewLine, RawWriter, ToDsv};
+use dsv_writer::{Encoder, NewLine, QuoteMode, RawWriter, ToDsv};
 use rayon::prelude::*;
 use simulator::aggregation::Table;
 use simulator::play::play;
 use simulator::rng_helper::generate;
 use std::fs::File;
-use std::path::{Path, PathBuf};
 use std::sync::{Mutex, OnceLock};
 
 #[derive(Parser, Debug)]
@@ -17,12 +16,6 @@ struct Args {
 	player: usize,
 	#[arg(short, long, default_value = "../data/rank_round_iteration.tsv")]
 	path: String,
-}
-
-impl Args {
-	pub fn create_path(&self, channel: usize) -> PathBuf {
-		Path::new(&self.path).join(format!("{:00}_{channel:00}.tsv", self.player))
-	}
 }
 
 static WRITER: OnceLock<Mutex<RawWriter<File>>> = OnceLock::new();
@@ -40,6 +33,27 @@ fn main() {
 			.unwrap(),
 		))
 		.unwrap();
+
+	{
+		let mut writer = WRITER.get().unwrap().lock().unwrap();
+		writer.write_str_field("id", QuoteMode::AutoDetect).unwrap();
+		writer
+			.write_str_field("iteration", QuoteMode::AutoDetect)
+			.unwrap();
+		writer
+			.write_str_field("cards", QuoteMode::AutoDetect)
+			.unwrap();
+		writer
+			.write_str_field("round", QuoteMode::AutoDetect)
+			.unwrap();
+		writer
+			.write_str_field("rank", QuoteMode::AutoDetect)
+			.unwrap();
+		writer
+			.write_str_field("count", QuoteMode::AutoDetect)
+			.unwrap();
+		writer.end_of_record(false).unwrap();
+	}
 
 	(0..20usize).into_par_iter().for_each(|channel| {
 		let mut rng = generate();

@@ -1,5 +1,5 @@
 use clap::Parser;
-use dsv_writer::{NewLine, RawWriter, ToDsv};
+use dsv_writer::{Encoder, NewLine, QuoteMode, RawWriter, ToDsv};
 use rayon::prelude::*;
 use simulator::aggregation::Table;
 use simulator::play::play;
@@ -17,12 +17,13 @@ pub struct Args {
 	step: usize,
 	#[arg(long, short)]
 	count: usize,
-	#[arg(long, short, default_value = "1_000_000")]
+	#[arg(long, short, default_value = "1000000")]
 	iteration: usize,
 }
 
 static WRITER: OnceLock<Mutex<RawWriter<File>>> = OnceLock::new();
 
+//noinspection DuplicatedCode
 fn main() {
 	let args = Args::parse();
 
@@ -31,6 +32,27 @@ fn main() {
 			RawWriter::try_new(File::create(args.path).unwrap(), '\t', NewLine::Lf).unwrap(),
 		))
 		.unwrap();
+
+	{
+		let mut writer = WRITER.get().unwrap().lock().unwrap();
+		writer.write_str_field("id", QuoteMode::AutoDetect).unwrap();
+		writer
+			.write_str_field("iteration", QuoteMode::AutoDetect)
+			.unwrap();
+		writer
+			.write_str_field("cards", QuoteMode::AutoDetect)
+			.unwrap();
+		writer
+			.write_str_field("round", QuoteMode::AutoDetect)
+			.unwrap();
+		writer
+			.write_str_field("rank", QuoteMode::AutoDetect)
+			.unwrap();
+		writer
+			.write_str_field("count", QuoteMode::AutoDetect)
+			.unwrap();
+		writer.end_of_record(false).unwrap();
+	}
 
 	(0..args.count).into_par_iter().for_each(|i| {
 		println!("{i} process start.");
