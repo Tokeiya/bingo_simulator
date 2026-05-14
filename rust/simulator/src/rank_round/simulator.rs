@@ -40,12 +40,14 @@ pub fn do_simulate(
 		.map(|x| Accumulator::new(initial_player + (step_player * x), x, iteration))
 		.collect();
 
+	let ttl = iteration * count;
+
 	(0usize..(count * iteration))
 		.into_par_iter()
 		.map(|x| Data::new(x, initial_player, step_player, iteration))
 		.for_each(|data| {
 			let (mut players, balls) = prepare(data.player);
-			let accum = &accum_arr[data.player / step_player];
+			let accum = &accum_arr[(data.player / step_player) - 1];
 			let mut cnt = 0usize;
 			let mut result = Vec::<usize>::new();
 
@@ -64,6 +66,14 @@ pub fn do_simulate(
 						}
 					}
 				}
+			}
+
+			if data.play_id & 0xFF_FF == 0 {
+				println!(
+					"{data:?} {}/{ttl} {:.2} %",
+					data.play_id,
+					((data.play_id as f64) / (ttl as f64)) * 100f64
+				)
 			}
 
 			accum.input(&result);
