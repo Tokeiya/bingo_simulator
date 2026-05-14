@@ -1,3 +1,4 @@
+use dashmap::DashMap;
 use dsv_writer::{Encoder, QuoteMode, ToDsv, ToDsvResult};
 use std::collections::HashMap;
 use std::io::Error;
@@ -31,18 +32,18 @@ impl Key {
 }
 
 pub struct Accumulator {
-	data: HashMap<Key, usize>,
+	data: DashMap<Key, usize>,
 	play_id: usize,
-	cards: usize,
+	player: usize,
 	iteration: usize,
 }
 
 impl Accumulator {
-	pub fn new(cards: usize, play_id: usize, iteration: usize) -> Self {
+	pub fn new(player: usize, play_id: usize, iteration: usize) -> Self {
 		Self {
-			data: HashMap::new(),
+			data: DashMap::new(),
 			play_id,
-			cards,
+			player,
 			iteration,
 		}
 	}
@@ -66,14 +67,14 @@ impl Accumulator {
 		}
 	}
 
-	pub fn view(&self) -> &HashMap<Key, usize> {
+	pub fn view(&self) -> &DashMap<Key, usize> {
 		&self.data
 	}
 
 	pub fn write_header<T: Encoder>(writer: &mut T) -> ToDsvResult<(), Error> {
 		writer.write_str_field("play_id", QuoteMode::AutoDetect)?;
 		writer.write_str_field("iteration", QuoteMode::AutoDetect)?;
-		writer.write_str_field("cards", QuoteMode::AutoDetect)?;
+		writer.write_str_field("player", QuoteMode::AutoDetect)?;
 		writer.write_str_field("round", QuoteMode::AutoDetect)?;
 		writer.write_str_field("rank", QuoteMode::AutoDetect)?;
 		writer.write_str_field("tie", QuoteMode::AutoDetect)?;
@@ -85,16 +86,18 @@ impl Accumulator {
 
 impl ToDsv<std::io::Error> for Accumulator {
 	fn to_dsv<T: Encoder>(&self, writer: &mut T) -> ToDsvResult<(), Error> {
-		for (key, &count) in self.data.iter() {
+		for x in self.data.iter() {
 			writer.write_value_field(&self.play_id, QuoteMode::AutoDetect)?;
 			writer.write_value_field(&self.iteration, QuoteMode::AutoDetect)?;
-			writer.write_value_field(&self.cards, QuoteMode::AutoDetect)?;
-			writer.write_value_field(&key.round(), QuoteMode::AutoDetect)?;
-			writer.write_value_field(&key.rank(), QuoteMode::AutoDetect)?;
-			writer.write_value_field(&key.tie(), QuoteMode::AutoDetect)?;
-			writer.write_value_field(&count, QuoteMode::AutoDetect)?;
+			writer.write_value_field(&self.player, QuoteMode::AutoDetect)?;
+
+			writer.write_value_field(&x.key().round(), QuoteMode::AutoDetect)?;
+			writer.write_value_field(&x.key().rank(), QuoteMode::AutoDetect)?;
+			writer.write_value_field(&x.key().tie(), QuoteMode::AutoDetect)?;
+			writer.write_value_field(&x.value(), QuoteMode::AutoDetect)?;
 			writer.end_of_record(false)?;
 		}
+
 		Ok(())
 	}
 }
@@ -113,6 +116,9 @@ mod tests {
 		let vec = vec![4, 4, 4, 12, 12, 34, 34, 34, 55, 55, 55];
 
 		let mut fixture = Accumulator::new(10, 1, 1);
+		fixture.input(&vec);
+
+		let vec = vec![4, 4, 4, 4, 12, 13, 34, 34, 34, 55, 55, 55];
 		fixture.input(&vec);
 
 		let vec = vec![4, 4, 4, 4, 12, 13, 34, 34, 34, 55, 55, 55];
