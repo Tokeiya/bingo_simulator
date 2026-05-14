@@ -1,3 +1,4 @@
+pub mod accumulator;
 pub mod aggregation;
 pub mod play;
 pub mod result_writer;
