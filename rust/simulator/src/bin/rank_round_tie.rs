@@ -26,5 +26,11 @@ fn main() {
 		));
 	}
 
-	do_simulate(Path::new("../data/output.tsv"), 10, 10, 10, 1_000_000);
+	do_simulate(
+		Path::new(args.path.unwrap().as_str()),
+		10,
+		10,
+		10,
+		1_000_000,
+	);
 }
