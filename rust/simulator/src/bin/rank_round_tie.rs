@@ -20,7 +20,7 @@ fn main() {
 
 	if args.path.is_none() {
 		args.path = Some(format!(
-			"../data/rank_round_{}_{}.tsv",
+			"../data/source/rank_round_{}_{}.tsv",
 			args.begin,
 			args.step * args.count
 		));
