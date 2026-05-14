@@ -31,6 +31,6 @@ fn main() {
 		args.begin,
 		args.step,
 		args.count,
-		1_000_000,
+		args.iteration,
 	);
 }
