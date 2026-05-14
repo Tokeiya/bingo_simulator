@@ -48,7 +48,7 @@ impl Accumulator {
 		}
 	}
 
-	pub fn input(&mut self, rounds: &[usize]) {
+	pub fn input(&self, rounds: &[usize]) {
 		let mut array = [0usize; ROUND];
 
 		for &dta in rounds.iter() {
