@@ -28,9 +28,9 @@ fn main() {
 
 	do_simulate(
 		Path::new(args.path.unwrap().as_str()),
-		10,
-		10,
-		10,
+		args.begin,
+		args.step,
+		args.count,
 		1_000_000,
 	);
 }
