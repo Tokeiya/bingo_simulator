@@ -1,34 +1,5 @@
-CREATE TABLE million_sample
-(
-    id        INTEGER GENERATED ALWAYS AS IDENTITY,
-    play_id   INTEGER NOT NULL,
-    cards     INTEGER NOT NULL,
-    round     INTEGER NOT NULL,
-    hit_count INTEGER NOT NULL,
-    PRIMARY KEY (cards, id)
-) PARTITION BY LIST (cards);
-
-CREATE TABLE million_sample_1 PARTITION OF million_sample FOR VALUES IN (1);
-
-CREATE UNLOGGED TABLE million_sample_5 PARTITION OF million_sample FOR VALUES IN (5);
-CREATE UNLOGGED TABLE million_sample_10 PARTITION OF million_sample FOR VALUES IN (10);
-CREATE UNLOGGED TABLE million_sample_15 PARTITION OF million_sample FOR VALUES IN (15);
-CREATE UNLOGGED TABLE million_sample_20 PARTITION OF million_sample FOR VALUES IN (20);
-CREATE UNLOGGED TABLE million_sample_25 PARTITION OF million_sample FOR VALUES IN (25);
-CREATE UNLOGGED TABLE million_sample_30 PARTITION OF million_sample FOR VALUES IN (30);
-CREATE UNLOGGED TABLE million_sample_35 PARTITION OF million_sample FOR VALUES IN (35);
-CREATE UNLOGGED TABLE million_sample_40 PARTITION OF million_sample FOR VALUES IN (40);
-CREATE UNLOGGED TABLE million_sample_45 PARTITION OF million_sample FOR VALUES IN (45);
-CREATE UNLOGGED TABLE million_sample_50 PARTITION OF million_sample FOR VALUES IN (50);
-CREATE UNLOGGED TABLE million_sample_55 PARTITION OF million_sample FOR VALUES IN (55);
-CREATE UNLOGGED TABLE million_sample_60 PARTITION OF million_sample FOR VALUES IN (60);
-CREATE UNLOGGED TABLE million_sample_65 PARTITION OF million_sample FOR VALUES IN (65);
-CREATE UNLOGGED TABLE million_sample_70 PARTITION OF million_sample FOR VALUES IN (70);
-CREATE UNLOGGED TABLE million_sample_75 PARTITION OF million_sample FOR VALUES IN (75);
-CREATE UNLOGGED TABLE million_sample_80 PARTITION OF million_sample FOR VALUES IN (80);
-CREATE UNLOGGED TABLE million_sample_85 PARTITION OF million_sample FOR VALUES IN (85);
-CREATE UNLOGGED TABLE million_sample_90 PARTITION OF million_sample FOR VALUES IN (90);
-CREATE UNLOGGED TABLE million_sample_95 PARTITION OF million_sample FOR VALUES IN (95);
-CREATE UNLOGGED TABLE million_sample_100 PARTITION OF million_sample FOR VALUES IN (100);
-
-CREATE UNLOGGED TABLE million_sample_default PARTITION OF million_sample DEFAULT;
+CREATE INDEX idx_rank_round_1000_10000_player ON rank_round_1000_10000 (player);
+CREATE INDEX idx_rank_round_1000_10000_round ON rank_round_1000_10000 (round);
+CREATE INDEX idx_rank_round_1000_10000_rank ON rank_round_1000_10000 (rank);
+CREATE INDEX idx_rank_round_1000_10000_tie ON rank_round_1000_10000 (player);
+CREATE INDEX idx_rank_round_1000_10000_count ON rank_round_1000_10000 (player);
