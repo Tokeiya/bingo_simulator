@@ -41,13 +41,14 @@ pub fn do_simulate(
 		.collect();
 
 	let ttl = iteration * count;
+	let offset = initial_player / step_player;
 
 	(0usize..(count * iteration))
 		.into_par_iter()
 		.map(|x| Data::new(x, initial_player, step_player, iteration))
 		.for_each(|data| {
 			let (mut players, balls) = prepare(data.player);
-			let accum = &accum_arr[(data.player / step_player) - 1];
+			let accum = &accum_arr[(data.player / step_player) - offset];
 			let mut cnt = 0usize;
 			let mut result = Vec::<usize>::new();
 
