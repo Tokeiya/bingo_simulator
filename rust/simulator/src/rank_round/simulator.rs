@@ -8,6 +8,7 @@ use rand_chacha::ChaCha20Rng;
 use rayon::prelude::*;
 use std::cell::RefCell;
 use std::path::{Path, PathBuf};
+use std::sync::atomic::{AtomicUsize, Ordering};
 
 fn prepare(player: usize) -> (Vec<Option<Card>>, [u8; 75]) {
 	thread_local! {
@@ -40,6 +41,7 @@ pub fn do_simulate(
 		.map(|x| Accumulator::new(initial_player + (step_player * x), x, iteration))
 		.collect();
 
+	let proc_count = AtomicUsize::new(0);
 	let ttl = iteration * count;
 	let offset = initial_player / step_player;
 
@@ -69,12 +71,13 @@ pub fn do_simulate(
 				}
 			}
 
-			if data.play_id & 0xFF_FF == 0 {
+			let c = proc_count.fetch_add(1, Ordering::Relaxed) + 1;
+
+			if (c & 0xFF_FF) == 0 {
 				println!(
-					"{data:?} {}/{ttl} {:.2} %",
-					data.play_id,
-					((data.play_id as f64) / (ttl as f64)) * 100f64
-				)
+					"{data:?} {c}/{ttl} {:.2} %",
+					((c as f64) / (ttl as f64)) * 100f64
+				);
 			}
 
 			accum.input(&result);
